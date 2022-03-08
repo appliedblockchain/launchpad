@@ -1,0 +1,7 @@
+{
+  "name": "@launchpad-ts/shared-types",
+  "packageManager": "yarn@3.2.0",
+  "version": "0.1.0",
+  "description": "Type declarations for launchpad",
+  "types": "index.d.ts"
+}
