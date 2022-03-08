@@ -36,7 +36,7 @@ To build and run this app locally you will need:
 - Clone the repository
 
 ```
-git clone --depth=1 https://github.com/appliedblockchain/launchpad <project_name>
+git clone https://github.com/appliedblockchain/launchpad-ts <project_name>
 ```
 
 - Install dependencies
@@ -52,6 +52,12 @@ yarn
 
 ```
 yarn start
+```
+
+- Keep dependencies updated
+
+```
+yarn upgrade-interactive
 ```
 
 ## Project Structure

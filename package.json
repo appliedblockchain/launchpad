@@ -19,14 +19,15 @@
     "lint": "eslint \"**/*.{js,ts,tsx}\" --quiet --fix"
   },
   "dependencies": {
+    "@arkweid/lefthook": "^0.7.7",
     "@commitlint/cli": "^16.2.1",
-    "@typescript-eslint/eslint-plugin": "^5.13.0",
-    "@typescript-eslint/parser": "^5.13.0",
+    "@typescript-eslint/eslint-plugin": "^5.14.0",
+    "@typescript-eslint/parser": "^5.14.0",
     "commitlint-config-jira": "^1.5.2",
     "commitlint-plugin-jira-rules": "^1.5.1",
     "eslint": "^8.10.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "typescript": "^4.6.2"
   }
