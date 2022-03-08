@@ -1,0 +1,18 @@
+FROM node:16.14.0-alpine
+
+WORKDIR /usr/src/app
+
+COPY package.json yarn.lock ./
+
+COPY services/web/package.json ./services/web/package.json
+COPY packages/ui-library/package.json ./packages/ui-library/package.json
+
+RUN yarn
+
+COPY services/web ./services/web
+COPY packages/ui-library ./packages/ui-library
+
+EXPOSE 3000
+ENV PORT 3000
+
+CMD [ "yarn", "start:web" ]

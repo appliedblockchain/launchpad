@@ -1,0 +1,33 @@
+{
+  "private": true,
+  "workspaces": [
+    "packages/**",
+    "services/**"
+  ],
+  "name": "launchpad-ts",
+  "version": "1.0.0",
+  "repository": "https://github.com/appliedblockchain/launchpad-ts",
+  "author": "fabio@appliedblockchain.com",
+  "packageManager": "yarn@3.2.0",
+  "scripts": {
+    "start": "GIT_HASH_VERSION=$(git rev-parse HEAD) docker-compose -f docker-compose.local.yml up",
+    "start:build": "GIT_HASH_VERSION=$(git rev-parse HEAD) docker-compose -f docker-compose.local.yml up --build",
+    "start:prod": "GIT_HASH_VERSION=$(git rev-parse HEAD) docker-compose -f docker-compose.yml up --build",
+    "start:web": "yarn workspace @launchpad-ts/web start & yarn workspace @launchpad-ts/ui-library build:watch",
+    "start:api": "yarn workspace @launchpad-ts/api start:dev",
+    "storybook": "yarn workspace @launchpad-ts/ui-library storybook",
+    "lint": "eslint \"**/*.{js,ts,tsx}\" --quiet --fix"
+  },
+  "dependencies": {
+    "@commitlint/cli": "^16.2.1",
+    "@typescript-eslint/eslint-plugin": "^5.13.0",
+    "@typescript-eslint/parser": "^5.13.0",
+    "commitlint-config-jira": "^1.5.2",
+    "commitlint-plugin-jira-rules": "^1.5.1",
+    "eslint": "^8.10.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
+    "typescript": "^4.6.2"
+  }
+}

@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  api:
+    hostname: launchpad-ts-api
+    image: appliedblockchain/launchpad-ts-api:latest
+    build:
+      context: .
+      dockerfile: ./stacks/prod/Dockerfile-api
+    depends_on:
+      - postgresdb
+    env_file:
+      - ./.env
+    ports:
+      - 4000:4000
+    environment:
+      - GIT_HASH_VERSION=${GIT_HASH_VERSION}
+
+  postgresdb:
+    image: postgres:10.4
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_DB=apidb
+
+  # web:
+  #   hostname: launchpad-ts-web
+  #   image: appliedblockchain/launchpad-ts-web:latest
+  #   build:
+  #     context: .
+  #     dockerfile: ./stacks/prod/Dockerfile-web
+  #   ports:
+  #     - 8080:8080
+  #   depends_on:
+  #     - api
