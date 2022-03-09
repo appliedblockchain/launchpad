@@ -9,6 +9,7 @@ services:
       dockerfile: ./stacks/local/Dockerfile-api.dev
     volumes:
       - ./services/api/src:/usr/src/app/services/api/src
+      - ./packages/shared-types:/usr/src/app/packages/shared-types
       - /usr/src/app/services/api/node_modules
     depends_on:
       - postgresdb
@@ -37,6 +38,7 @@ services:
       dockerfile: ./stacks/local/Dockerfile-web.dev
     volumes:
       - ./services/web/src:/usr/src/app/services/web/src
+      - ./packages/shared-types:/usr/src/app/packages/shared-types
       - ./packages/ui-library/src:/usr/src/app/packages/ui-library/src
       - /usr/src/app/services/web/node_modules
       - /usr/src/app/services/ui-library/node_modules
