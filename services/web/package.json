@@ -19,7 +19,8 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
-    "@launchpad-ts/shared-types": "0.1.0"
+    "@launchpad-ts/shared-types": "0.1.0",
+    "cypress": "^9.5.1"
   },
   "engines": {
     "node": "16.x.x",
