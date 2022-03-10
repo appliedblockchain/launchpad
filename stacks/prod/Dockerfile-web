@@ -6,11 +6,13 @@ COPY package.json yarn.lock ./
 
 COPY ./services/web/package.json ./services/web/package.json
 COPY ./packages/ui-library/package.json ./packages/ui-library/package.json
+COPY ./packages/shared-types/package.json ./packages/shared-types/package.json
 
 RUN yarn
 
 COPY services/web ./services/web
 COPY packages/ui-library ./packages/ui-library
+COPY packages/shared-types ./packages/shared-types
 
 WORKDIR /usr/src/app/services/web
 

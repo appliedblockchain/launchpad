@@ -2455,6 +2455,7 @@ __metadata:
   dependencies:
     "@koa/cors": ^3.1.0
     "@koa/router": ^10.1.1
+    "@launchpad-ts/shared-types": 0.1.0
     "@sentry/node": ^6.18.1
     "@types/jest": ^27.4.1
     "@types/koa": 2.13.4
@@ -2479,6 +2480,12 @@ __metadata:
     typeorm: ^0.2.45
     typescript: ^4.6.2
     winston: ^3.6.0
+  languageName: unknown
+  linkType: soft
+
+"@launchpad-ts/shared-types@0.1.0, @launchpad-ts/shared-types@workspace:packages/shared-types":
+  version: 0.0.0-use.local
+  resolution: "@launchpad-ts/shared-types@workspace:packages/shared-types"
   languageName: unknown
   linkType: soft
 
@@ -2524,6 +2531,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@launchpad-ts/web@workspace:services/web"
   dependencies:
+    "@launchpad-ts/shared-types": 0.1.0
     "@launchpad-ts/ui-library": 0.1.0
     "@testing-library/jest-dom": ^5.16.2
     "@testing-library/react": ^12.1.3

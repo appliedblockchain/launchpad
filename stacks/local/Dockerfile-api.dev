@@ -5,10 +5,12 @@ COPY package.json .
 COPY yarn.lock .
 
 COPY ./services/api/package.json ./services/api/package.json
+COPY packages/shared-types/package.json ./packages/shared-types/package.json
 
 RUN yarn install
 
 COPY ./services/api ./services/api
+COPY packages/shared-types ./packages/shared-types
 
 EXPOSE 4000
 ENV PORT 4000

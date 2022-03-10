@@ -4,10 +4,12 @@ WORKDIR /usr/src/app
 COPY package.json yarn.lock ./
 
 COPY ./services/api/package.json ./services/api/package.json
+COPY packages/shared-types/package.json ./packages/shared-types/package.json
 
 RUN yarn
 
 COPY ./services/api ./services/api
+COPY packages/shared-types ./packages/shared-types
 
 WORKDIR /usr/src/app/services/api
 
