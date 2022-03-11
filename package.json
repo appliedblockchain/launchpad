@@ -16,7 +16,9 @@
     "start:web": "yarn workspace @launchpad-ts/web start & yarn workspace @launchpad-ts/ui-library build:watch",
     "start:api": "yarn workspace @launchpad-ts/api start:dev",
     "storybook": "yarn workspace @launchpad-ts/ui-library storybook",
-    "lint": "eslint \"**/*.{js,ts,tsx}\" --quiet --fix"
+    "lint": "eslint \"**/*.{js,ts,tsx}\" --quiet --fix",
+    "e2e:open": "yarn workspace @launchpad-ts/web e2e:open",
+    "e2e:run": "yarn workspace @launchpad-ts/web e2e:run"
   },
   "dependencies": {
     "@arkweid/lefthook": "^0.7.7",
