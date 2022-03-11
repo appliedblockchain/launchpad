@@ -3,3 +3,5 @@ coverage
 .yarn/cache
 .yarn/install-state.gz
 .env
+cypress/videos
+cypress/screenshots
