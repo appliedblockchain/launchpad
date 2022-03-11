@@ -14550,6 +14550,7 @@ __metadata:
     "@typescript-eslint/parser": ^5.14.0
     commitlint-config-jira: ^1.5.2
     commitlint-plugin-jira-rules: ^1.5.1
+    cypress: ^9.5.1
     eslint: ^8.10.0
     eslint-config-prettier: ^8.5.0
     eslint-plugin-prettier: ^4.0.0
