@@ -15,11 +15,13 @@ const launch = async () => {
     })
   }
 
-  await createDbConnection().catch((error: string) => {
-    const errorMessage = `TypeORM connection error: ${error}`
-    console.log(errorMessage)
-    Sentry.captureException(errorMessage)
-  })
+  await createDbConnection()
+
+    .catch((error: string) => {
+      const errorMessage = `TypeORM connection error: ${error}`
+      console.log(errorMessage)
+      Sentry.captureException(errorMessage)
+    })
 
   app()
 }

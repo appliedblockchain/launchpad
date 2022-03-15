@@ -25,10 +25,10 @@ export default async (
       name: err.name,
       message: err.message,
       requestId:
-        process.env.NODE_ENV === 'test' ? '' : ctx.logger.defaultMeta.requestId,
+        process.env.NODE_ENV === 'test' ? '' : ctx.logger?.defaultMeta.requestId,
     }
 
-    ctx.logger.error(err.stack)
+    ctx.logger?.error(err.stack)
     sentryErrorHandler(err, context)
   }
 }

@@ -1,4 +1,5 @@
 import { validate, ValidationError } from 'class-validator'
+import passwordHelper from '../helper/password'
 import { Context } from 'koa'
 import {
   body,
@@ -70,6 +71,7 @@ export default class UserController {
     const userToBeSaved: User = new User()
     userToBeSaved.name = ctx.request.body.name
     userToBeSaved.email = ctx.request.body.email
+    userToBeSaved.password = await passwordHelper.hashPassword(ctx.request.body.password)
 
     // validate user entity
     const errors: ValidationError[] = await validate(userToBeSaved) // errors is an array of validation errors
@@ -107,6 +109,7 @@ export default class UserController {
     userToBeUpdated.id = +ctx.params.id || 0 // will always have a number, this will avoid errors
     userToBeUpdated.name = ctx.request.body.name
     userToBeUpdated.email = ctx.request.body.email
+    userToBeUpdated.password = await passwordHelper.hashPassword(ctx.request.body.password)
 
     // validate user entity
     const errors: ValidationError[] = await validate(userToBeUpdated) // errors is an array of validation errors

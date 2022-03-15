@@ -5,11 +5,16 @@ import { config } from './config'
 const connectionOptions: ConnectionOptions = {
   type: 'postgres',
   url: config.databaseUrl,
-  synchronize: true,
+  synchronize: false,
   logging: false,
   entities: config.dbEntitiesPath,
   ssl: config.dbsslconn, // if not development, will use SSL
   extra: {},
+  migrations: config.migrationsPath,
+  cli: {
+    entitiesDir: "src/entity",
+    migrationsDir: "src/migration",
+  }
 }
 if (connectionOptions.ssl) {
   connectionOptions.extra.ssl = {
