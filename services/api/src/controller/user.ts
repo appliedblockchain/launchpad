@@ -61,7 +61,7 @@ export default class UserController {
     }
   }
 
-  @request('post', '/users')
+  @request('post', '/register')
   @summary('Create a user')
   @body(userSchema)
   public static async createUser(ctx: Context): Promise<void> {
@@ -90,7 +90,6 @@ export default class UserController {
       const user = await userRepository.save(userToBeSaved)
       // return CREATED status code and updated user
       ctx.status = 201
-      ctx.body = user
     }
   }
 
