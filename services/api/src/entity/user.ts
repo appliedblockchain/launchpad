@@ -19,14 +19,21 @@ export class UserEntity implements User {
   @Length(10, 100)
   @IsEmail()
   email: string
+
+  @Column({
+    length: 100,
+  })
+  @Length(6, 100)
+  password: string
 }
 
 export const userSchema = {
-  id: { type: 'number', required: true, example: 1 },
+  id: { type: 'number', required: false, example: 1 },
   name: { type: 'string', required: true, example: 'Javier' },
   email: {
     type: 'string',
     required: true,
     example: 'avileslopez.javier@gmail.com',
   },
+  password: { type: 'string', required: false, example: 'password123'}
 }

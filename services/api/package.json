@@ -10,6 +10,10 @@
     "start": "npm run serve",
     "test": "jest",
     "test:coverage": "jest --collect-coverage",
+    "migrations:create": "typeorm migration:create -n",
+    "migrations:generate": "typeorm generate -n",
+    "migrations:run": "node --loader ts-node/esm ./node_modules/typeorm/cli.js migration:run",
+    "migrations:revert": "node --loader ts-node/esm ./node_modules/typeorm/cli.js migration:revert",
     "test:watch": "jest --watch"
   },
   "engines": {
