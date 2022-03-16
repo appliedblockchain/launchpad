@@ -11,6 +11,8 @@ export interface Config {
   databaseUrl: string
   dbEntitiesPath: string[]
   sentryDsn: string
+  passwordSaltRounds: number
+  migrationsPath: string[]
 }
 
 const isDevMode = process.env.NODE_ENV == 'development'
@@ -28,6 +30,10 @@ const config: Config = {
     ...(isDevMode ? ['src/entity/**/*.ts'] : ['build/entity/**/*.js']),
   ],
   sentryDsn: process.env.SENTRY_DSN,
+  passwordSaltRounds: +process.env.PASSWORD_SALT_ROUNDS || 10,
+  migrationsPath: [
+    "src/migrations/**/*.ts",
+  ]
 }
 
 export { config }
