@@ -2504,6 +2504,7 @@ __metadata:
     "@sentry/node": ^6.18.1
     "@types/bcrypt": ^5.0.0
     "@types/jest": ^27.4.1
+    "@types/jsonwebtoken": ^8.5.8
     "@types/koa": 2.13.4
     "@types/koa-bodyparser": ^4.3.6
     "@types/koa-helmet": ^6.0.4
@@ -2514,6 +2515,7 @@ __metadata:
     class-validator: ^0.13.2
     dotenv: ^16.0.0
     jest: ^27.5.1
+    jsonwebtoken: ^8.5.1
     koa: ^2.13.4
     koa-bodyparser: ^4.3.0
     koa-helmet: ^6.1.0
@@ -4933,6 +4935,15 @@ __metadata:
   version: 0.0.29
   resolution: "@types/json5@npm:0.0.29"
   checksum: e60b153664572116dfea673c5bda7778dbff150498f44f998e34b5886d8afc47f16799280e4b6e241c0472aef1bc36add771c569c68fc5125fc2ae519a3eb9ac
+  languageName: node
+  linkType: hard
+
+"@types/jsonwebtoken@npm:^8.5.8":
+  version: 8.5.8
+  resolution: "@types/jsonwebtoken@npm:8.5.8"
+  dependencies:
+    "@types/node": "*"
+  checksum: 56738a918c543dba30786066959f801212e7fb5cd4ec53cf7b8d227711ed358834feb9e5141f7f88ec7c642bb39757330a5a8917e3b22e0ff9084940d35f0d70
   languageName: node
   linkType: hard
 

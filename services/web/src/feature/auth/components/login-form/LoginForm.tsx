@@ -1,43 +1,36 @@
 import { Button, TextField } from '@launchpad-ts/ui-library'
-import './RegisterForm.css'
 import { useForm } from 'react-hook-form'
-import { RegisterFormData } from '../../../types'
+import { LoginFormData } from '../../types'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
+import { useSelector } from 'react-redux'
+import { selectAuthError } from '../../auth.slice'
 
 const validationSchema = Yup.object()
   .shape({
-    name: Yup.string().required(),
     email: Yup.string().email().required(),
     password: Yup.string().required().min(6).max(100),
-    confirmPassword: Yup.string().oneOf(
-      [Yup.ref('password')],
-      'passwords must match'
-    )
   })
   .required()
 
-interface RegisterFormProps {
-  onSubmit: (data: RegisterFormData) => void
+interface LoginFormProps {
+  onSubmit: (data: LoginFormData) => void
 }
-function RegisterForm({ onSubmit }: RegisterFormProps) {
+function LoginForm({ onSubmit }: LoginFormProps) {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<RegisterFormData>({
+  } = useForm<LoginFormData>({
     resolver: yupResolver(validationSchema),
     reValidateMode: 'onBlur',
   })
 
+  const authError = useSelector(selectAuthError)
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <h2>Signup</h2>
-      <TextField
-        label="Name"
-        {...register('name')}
-        error={errors?.name?.message}
-      />
+      <h2>Login</h2>
       <TextField
         label="Email"
         {...register('email')}
@@ -49,14 +42,12 @@ function RegisterForm({ onSubmit }: RegisterFormProps) {
         type="password"
         error={errors?.password?.message}
       />
-      <TextField
-        label="Confirm password"
-        {...register('confirmPassword')}
-        type="password"
-        error={errors?.confirmPassword?.message}
-      />
-      <Button type="submit">Register</Button>
+
+      <div className="button-container">
+        <Button type="submit">Login</Button>
+        {authError && <span>{authError}</span>}
+      </div>
     </form>
   )
 }
-export default RegisterForm
+export default LoginForm

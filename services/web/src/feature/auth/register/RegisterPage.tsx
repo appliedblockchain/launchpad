@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { AppDispatch } from '../../../store'
 import { register } from '../auth.slice'
 import { RegisterFormData } from '../types'
-import { RegisterForm } from './components/register-form'
+import { RegisterForm } from '../components/register-form'
 
 function RegisterPage() {
   const dispatch: AppDispatch = useDispatch()
