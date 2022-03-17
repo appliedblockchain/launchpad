@@ -16,11 +16,12 @@ export interface Config {
 }
 
 const isDevMode = process.env.NODE_ENV == 'development'
+const isTestMode = process.env.NODE_ENV == 'test'
 
 const config: Config = {
   port: +(process.env.PORT || 4000),
   debugLogging: isDevMode,
-  dbsslconn: !isDevMode,
+  dbsslconn: !isDevMode && !isTestMode,
   jwtSecret: process.env.JWT_SECRET || 'your-secret-whatever',
   gitHashVersion:
     process.env.GIT_HASH_VERSION || 'No commit was passed into this build',

@@ -12,41 +12,51 @@ import { errorHandler, logger, tracingHandler } from './middleware'
 import { protectedRouter } from './protectedRoutes'
 import { unprotectedRouter } from './unprotectedRoutes'
 
+import dotenv from 'dotenv'
+
+dotenv.config({ path: '../env' })
+
+let app: Koa
+
 export default () => {
-  const app = new Koa()
+  
+  if (!app) {
+    app = new Koa()
+    app
+      .use(tracingHandler)
+      .use(errorHandler)
+      .use(
+        helmet.contentSecurityPolicy({
+          directives: {
+            defaultSrc: ["'self'"],
+            scriptSrc: ["'self'", "'unsafe-inline'", 'cdnjs.cloudflare.com'],
+            styleSrc: [
+              "'self'",
+              "'unsafe-inline'",
+              'cdnjs.cloudflare.com',
+              'fonts.googleapis.com',
+            ],
+            fontSrc: ["'self'", 'fonts.gstatic.com'],
+            imgSrc: [
+              "'self'",
+              'data:',
+              'online.swagger.io',
+              'validator.swagger.io',
+            ],
+          },
+        })
+      )
+      .use(cors())
+      .use(logger(winston))
+      .use(bodyParser())
+      .use(unprotectedRouter.middleware())
+      .use(jwt({ secret: config.jwtSecret }).unless({ path: [/^\/swagger-/] }))
+      .use(protectedRouter.middleware())
 
-  app
-    .use(tracingHandler)
-    .use(errorHandler)
-    .use(
-      helmet.contentSecurityPolicy({
-        directives: {
-          defaultSrc: ["'self'"],
-          scriptSrc: ["'self'", "'unsafe-inline'", 'cdnjs.cloudflare.com'],
-          styleSrc: [
-            "'self'",
-            "'unsafe-inline'",
-            'cdnjs.cloudflare.com',
-            'fonts.googleapis.com',
-          ],
-          fontSrc: ["'self'", 'fonts.gstatic.com'],
-          imgSrc: [
-            "'self'",
-            'data:',
-            'online.swagger.io',
-            'validator.swagger.io',
-          ],
-        },
-      })
-    )
-    .use(cors())
-    .use(logger(winston))
-    .use(bodyParser())
-    .use(unprotectedRouter.middleware())
-    .use(jwt({ secret: config.jwtSecret }).unless({ path: [/^\/swagger-/] }))
-    .use(protectedRouter.middleware())
+    app.listen(config.port, () => {
+      console.log(`Server running on port ${config.port}`)
+    })
 
-  app.listen(config.port, () => {
-    console.log(`Server running on port ${config.port}`)
-  })
+  }
+  return app
 }

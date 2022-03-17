@@ -1,4 +1,4 @@
-import { ConnectionOptions, createConnection } from 'typeorm'
+import { ConnectionOptions, createConnection, getConnectionOptions } from 'typeorm'
 
 import { config } from './config'
 
@@ -17,6 +17,9 @@ if (connectionOptions.ssl) {
   }
 }
 
-export default () => {
+export default async () => {
+  const co = await getConnectionOptions();
+  console.warn({co});
+  // todo select test db
   return createConnection(connectionOptions)
 }
