@@ -6,13 +6,23 @@ import {
   request,
   responsesAll,
   summary,
+  swaggerClass,
+  swaggerProperty,
   tagsAll,
 } from 'koa-swagger-decorator'
 import { Equal, getManager, Like, Not, Repository } from 'typeorm'
 import passwordHelper from '../helper/password'
 
-import { UserEntity , userSchema } from '../entity/user'
+import { UserEntity, userSchema } from '../entity/user'
 import { User } from '@launchpad-ts/shared-types'
+import { config } from '../config'
+import jwt from 'jsonwebtoken'
+
+@swaggerClass()
+export class loginInfo {
+  @swaggerProperty({ type: 'string', required: true }) email: string
+  @swaggerProperty({ type: 'string', required: true }) password: string
+}
 
 @responsesAll({
   200: { description: 'success' },
@@ -21,12 +31,12 @@ import { User } from '@launchpad-ts/shared-types'
 })
 @tagsAll(['User'])
 export default class UserController {
-
   @request('get', '/users')
   @summary('Find all users')
   public static async getUsers(ctx: Context): Promise<void> {
     // get a user repository to perform operations with user
-    const userRepository: Repository<User> = getManager().getRepository(UserEntity)
+    const userRepository: Repository<User> =
+      getManager().getRepository(UserEntity)
 
     // load all users
     const users: User[] = await userRepository.find()
@@ -43,7 +53,8 @@ export default class UserController {
   })
   public static async getUser(ctx: Context): Promise<void> {
     // get a user repository to perform operations with user
-    const userRepository: Repository<User> = getManager().getRepository(UserEntity)
+    const userRepository: Repository<User> =
+      getManager().getRepository(UserEntity)
 
     // load user by id
     const user: User | undefined = await userRepository.findOne(
@@ -61,18 +72,21 @@ export default class UserController {
     }
   }
 
-  @request('post', '/users')
+  @request('post', '/register')
   @summary('Create a user')
   @body(userSchema)
   public static async createUser(ctx: Context): Promise<void> {
     // get a user repository to perform operations with user
-    const userRepository: Repository<User> = getManager().getRepository(UserEntity)
+    const userRepository: Repository<User> =
+      getManager().getRepository(UserEntity)
 
     // build up entity user to be saved
     const userToBeSaved: User = new UserEntity()
     userToBeSaved.name = ctx.request.body.name
     userToBeSaved.email = ctx.request.body.email
-    userToBeSaved.password = await passwordHelper.hashPassword(ctx.request.body.password)
+    userToBeSaved.password = await passwordHelper.hashPassword(
+      ctx.request.body.password
+    )
 
     // validate user entity
     const errors: ValidationError[] = await validate(userToBeSaved) // errors is an array of validation errors
@@ -90,7 +104,6 @@ export default class UserController {
       const user = await userRepository.save(userToBeSaved)
       // return CREATED status code and updated user
       ctx.status = 201
-      ctx.body = user
     }
   }
 
@@ -102,7 +115,8 @@ export default class UserController {
   @body(userSchema)
   public static async updateUser(ctx: Context): Promise<void> {
     // get a user repository to perform operations with user
-    const userRepository: Repository<User> = getManager().getRepository(UserEntity)
+    const userRepository: Repository<User> =
+      getManager().getRepository(UserEntity)
 
     // update the user by specified id
     // build up entity user to be updated
@@ -110,7 +124,9 @@ export default class UserController {
     userToBeUpdated.id = +ctx.params.id || 0 // will always have a number, this will avoid errors
     userToBeUpdated.name = ctx.request.body.name
     userToBeUpdated.email = ctx.request.body.email
-    userToBeUpdated.password = await passwordHelper.hashPassword(ctx.request.body.password)
+    userToBeUpdated.password = await passwordHelper.hashPassword(
+      ctx.request.body.password
+    )
 
     // validate user entity
     const errors: ValidationError[] = await validate(userToBeUpdated) // errors is an array of validation errors
@@ -188,5 +204,30 @@ export default class UserController {
 
     // return a NO CONTENT status code
     ctx.status = 204
+  }
+
+  @request('post', '/login')
+  @summary('Authenticates user and returns jwt')
+  @body(loginInfo)
+  public static async login(ctx: Context): Promise<void> {
+    const userRepository = getManager().getRepository(UserEntity)
+    const body = ctx.request.body
+
+    const [user]: User[] = await userRepository.find({
+      where: { email: body.email },
+    })
+    const valid = user && await passwordHelper.validatePassword(user, body.password)
+    if (valid) {
+      const { password, ...userWithoutPassword } = user
+      const accessToken = jwt.sign(userWithoutPassword, config.jwtSecret)
+      ctx.status = 200
+      ctx.body = {
+        accessToken,
+        user: userWithoutPassword,
+      }
+    } else {
+      ctx.status = 401
+      ctx.body = 'Invalid email or password'
+    }
   }
 }

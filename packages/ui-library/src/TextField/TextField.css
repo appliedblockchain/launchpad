@@ -1,0 +1,16 @@
+.form-control{ 
+    display:  flex;
+    flex-direction: column;
+}
+.form-control > input {
+    height: 40px;
+    border-radius: 0px;
+    border: 1px solid #000000;
+    padding: 0 14px;
+    font-size: 15px;
+
+}
+.form-control > span {
+    color: #FF224A;
+    font-size: 12px;
+}
