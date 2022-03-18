@@ -46,8 +46,7 @@ interface AuthState {
   user: null | User
   errorMessage: null | string
 }
-const storedUser = localStorage.getItem('user')
-const user: null | User = storedUser ? JSON.parse(storedUser) : null
+const user: null | User = authService.getUser()
 const initialState: AuthState = { isLoggedIn: false, user, errorMessage: null }
 
 export const logout = createAsyncThunk('auth/logout', async () => {

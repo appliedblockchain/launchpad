@@ -13,10 +13,6 @@ function RegisterPage() {
     const resultAction = await dispatch(register(data))
     if (register.fulfilled.match(resultAction)) {
       navigate('/', { replace: true })
-    } else {
-      if (resultAction.payload) {
-        //handle error
-      }
     }
   }
 

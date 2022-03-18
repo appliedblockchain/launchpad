@@ -3,6 +3,8 @@ import { useForm } from 'react-hook-form'
 import { RegisterFormData } from '../../types'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
+import { useSelector } from 'react-redux'
+import { selectAuthError } from '../../auth.slice'
 
 const validationSchema = Yup.object()
   .shape({
@@ -12,7 +14,7 @@ const validationSchema = Yup.object()
     confirmPassword: Yup.string().oneOf(
       [Yup.ref('password')],
       'passwords must match'
-    )
+    ),
   })
   .required()
 
@@ -20,6 +22,8 @@ interface RegisterFormProps {
   onSubmit: (data: RegisterFormData) => void
 }
 function RegisterForm({ onSubmit }: RegisterFormProps) {
+  const authError = useSelector(selectAuthError)
+
   const {
     register,
     handleSubmit,
@@ -54,7 +58,10 @@ function RegisterForm({ onSubmit }: RegisterFormProps) {
         type="password"
         error={errors?.confirmPassword?.message}
       />
-      <Button type="submit">Register</Button>
+      <div className="button-container">
+        <Button type="submit">Register</Button>
+        {authError && <span>{authError}</span>}
+      </div>
     </form>
   )
 }
