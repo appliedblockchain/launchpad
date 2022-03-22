@@ -1,96 +1,52 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { AxiosResponse } from 'axios'
-import { authService } from './auth.service'
-import { RegisterFormData } from './types'
-import { User } from '@launchpad-ts/shared-types'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { LoginResponse, User } from '@launchpad-ts/shared-types'
 import { RootState } from '../../store'
 
-export const register = createAsyncThunk<
-  void,
-  RegisterFormData,
-  { rejectValue: string }
->('auth/register', async ({ name, email, password }, thunkAPI) => {
-  try {
-    const response: AxiosResponse<any> = await authService.register({
-      name,
-      email,
-      password,
-    })
-
-    if (response.status === 201) {
-      thunkAPI.dispatch(login({ email, password }))
-    } else {
-      throw response.data
-    }
-  } catch (error: any) {
-    return thunkAPI.rejectWithValue(error?.response?.data)
-  }
-})
-
-export const login = createAsyncThunk<
-  any,
-  { email: string; password: string },
-  { rejectValue: string }
->('auth/login', async ({ email, password }, thunkAPI) => {
-  try {
-    const { user } = await authService.login({ email, password })
-
-    return { user }
-  } catch (error: any) {
-    return thunkAPI.rejectWithValue(error?.response?.data)
-  }
-})
+enum AppLocalStorage {
+  USER = 'user',
+  ACCESS_TOKEN = 'access_token',
+}
 
 interface AuthState {
   isLoggedIn: boolean
   user: null | User
   errorMessage: null | string
 }
-const user: null | User = authService.getUser()
-const initialState: AuthState = { isLoggedIn: false, user, errorMessage: null }
 
-export const logout = createAsyncThunk('auth/logout', async () => {
-  authService.logout()
-})
+const getUser = (): User | null => {
+  const storedUser = localStorage.getItem(AppLocalStorage.USER)
+  const user: null | User = storedUser ? JSON.parse(storedUser) : null
+  return user
+}
+
+const user: null | User = getUser()
+const initialState: AuthState = { isLoggedIn: false, user, errorMessage: null }
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
-  extraReducers: (builder) => {
-    builder
-      .addCase(register.pending, (state) => {
-        state.errorMessage = null
-      })
-      .addCase(login.pending, (state) => {
-        state.errorMessage = null
-      })
-      .addCase(logout.pending, (state) => {
-        state.errorMessage = null
-      })
-      .addCase(login.fulfilled, (state, action) => {
-        state.isLoggedIn = true
-        state.user = action.payload.user
-      })
-      .addCase(login.rejected, (state, { payload }) => {
-        state.isLoggedIn = false
-        state.user = null
-        state.errorMessage = payload as string
-      })
-      .addCase(register.rejected, (state, { payload }) => {
-        state.isLoggedIn = false
-        state.user = null
-        state.errorMessage = payload as string
-      })
-      .addCase(logout.fulfilled, (state) => {
-        state.isLoggedIn = false
-        state.user = null
-      })
+  reducers: {
+    setCredentials: (
+      state,
+      { payload: { user, accessToken } }: PayloadAction<LoginResponse>
+    ) => {
+      state.user = user
+      state.isLoggedIn = true
+      localStorage.setItem(AppLocalStorage.USER, JSON.stringify(user))
+      localStorage.setItem(AppLocalStorage.ACCESS_TOKEN, accessToken)
+    },
+    logout: (state) => {
+      ;(state.user = null), (state.isLoggedIn = false)
+      localStorage.removeItem(AppLocalStorage.USER)
+      localStorage.removeItem(AppLocalStorage.ACCESS_TOKEN)
+    },
   },
 })
 
 const selectUser = (state: RootState) => state.auth.user
 const selectAuthError = (state: RootState) => state.auth.errorMessage
+
+export const { setCredentials, logout } = authSlice.actions
 export default authSlice.reducer
 
 export { selectUser, selectAuthError }

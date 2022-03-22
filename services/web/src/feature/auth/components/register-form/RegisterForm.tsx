@@ -3,8 +3,6 @@ import { useForm } from 'react-hook-form'
 import { RegisterFormData } from '../../types'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
-import { useSelector } from 'react-redux'
-import { selectAuthError } from '../../auth.slice'
 
 const validationSchema = Yup.object()
   .shape({
@@ -20,9 +18,9 @@ const validationSchema = Yup.object()
 
 interface RegisterFormProps {
   onSubmit: (data: RegisterFormData) => void
+  authError?: string
 }
-function RegisterForm({ onSubmit }: RegisterFormProps) {
-  const authError = useSelector(selectAuthError)
+function RegisterForm({ onSubmit, authError }: RegisterFormProps) {
 
   const {
     register,

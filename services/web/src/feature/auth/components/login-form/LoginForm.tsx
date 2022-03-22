@@ -3,8 +3,6 @@ import { useForm } from 'react-hook-form'
 import { LoginFormData } from '../../types'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
-import { useSelector } from 'react-redux'
-import { selectAuthError } from '../../auth.slice'
 
 const validationSchema = Yup.object()
   .shape({
@@ -15,8 +13,9 @@ const validationSchema = Yup.object()
 
 interface LoginFormProps {
   onSubmit: (data: LoginFormData) => void
+  authError?: string
 }
-function LoginForm({ onSubmit }: LoginFormProps) {
+function LoginForm({ onSubmit, authError }: LoginFormProps) {
   const {
     register,
     handleSubmit,
@@ -25,8 +24,6 @@ function LoginForm({ onSubmit }: LoginFormProps) {
     resolver: yupResolver(validationSchema),
     reValidateMode: 'onBlur',
   })
-
-  const authError = useSelector(selectAuthError)
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

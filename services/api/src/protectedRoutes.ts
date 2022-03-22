@@ -11,4 +11,5 @@ protectedRouter.put('/users/:id', user.updateUser)
 protectedRouter.delete('/users/:id', user.deleteUser)
 protectedRouter.delete('/testusers', user.deleteTestUsers)
 
+
 export { protectedRouter }
