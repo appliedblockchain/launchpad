@@ -5,10 +5,10 @@ import React from 'react'
 
 import TextField from './TextField'
 
-describe('TextField', () => {
+describe('TextField Tests', () => {
   let wrapper: any
   beforeEach(() => {
-    wrapper = render(<TextField />)
+    wrapper = render(<TextField data-testid="input"/>)
   })
 
   test('renders the TextField component successfully.', () => {
