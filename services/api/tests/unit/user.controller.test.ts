@@ -3,8 +3,8 @@ import { validate } from 'class-validator'
 import { Context } from 'koa'
 import { getManager } from 'typeorm'
 
-import UserController from '../src/controller/user'
-import { UserEntity } from '../src/entity/user'
+import UserController from '../../src/controller/user'
+import { UserEntity } from '../../src/entity/user'
 import bcrypt from 'bcrypt';
 
 const user: UserEntity = new UserEntity()
@@ -47,7 +47,9 @@ describe('User controller', () => {
       getRepository: () => userRepository,
     })
     const context = { status: undefined, body: undefined } as Context
+
     await UserController.getUsers(context)
+    
     expect(userRepository.find).toHaveBeenCalledTimes(1)
     expect(context.status).toBe(200)
     expect(context.body).toStrictEqual([user])

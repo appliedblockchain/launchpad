@@ -8,7 +8,8 @@
     "serve": "node build/server.js",
     "build": "npm run build-ts",
     "start": "npm run serve",
-    "test": "jest",
+    "test": "jest -c jest.config.ts TODO",
+    "test:unit": "jest -c jest.config.js",
     "test:coverage": "jest --collect-coverage",
     "migrations:create": "typeorm migration:create -n",
     "migrations:generate": "typeorm generate -n",
@@ -54,16 +55,5 @@
     "ts-jest": "^27.1.3",
     "typeorm": "^0.2.45",
     "winston": "^3.6.0"
-  },
-  "jest": {
-    "roots": [
-      "<rootDir>"
-    ],
-    "testMatch": [
-      "**/tests/**/*.+(ts|tsx|js)"
-    ],
-    "transform": {
-      "^.+\\.(ts|tsx)$": "ts-jest"
-    }
   }
 }

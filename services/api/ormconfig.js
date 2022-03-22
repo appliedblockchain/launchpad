@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = [
   {
     name: 'default',
@@ -28,12 +30,12 @@ module.exports = [
     synchronize: true,
     logging: true,
     dropSchema: true,
-    entities: ['src/entity/**/*.ts'],
-    migrations: ['src/migration/**/*.ts'],
-    subscribers: ['src/subscriber/**/*.ts'],
+    // migrationsRun: true,
+    entities: [path.join(__dirname, '/../**/**.entity{.ts,.js}')],
+    migrations: ['./src/migration/**/*.ts'],
     cli: {
-      entitiesDir: 'src/entity',
-      migrationsDir: 'src/migration',
+      entitiesDir: '../src/entity',
+      migrationsDir: '../src/migration',
     },
   },
 ]

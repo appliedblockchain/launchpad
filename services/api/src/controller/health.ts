@@ -4,7 +4,7 @@ import { getConnection } from 'typeorm'
 
 import { config } from '../config'
 
-enum ServiceStatus {
+export enum ServiceStatus {
   UP = 'UP',
   DOWN = 'DOWN',
 }

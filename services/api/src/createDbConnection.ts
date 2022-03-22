@@ -1,6 +1,6 @@
 import { ConnectionOptions, createConnection, getConnectionOptions } from 'typeorm'
 
-import { config } from './config'
+import { config, isTestMode } from './config'
 
 const connectionOptions: ConnectionOptions = {
   type: 'postgres',
@@ -18,8 +18,9 @@ if (connectionOptions.ssl) {
 }
 
 export default async () => {
-  const co = await getConnectionOptions();
-  console.warn({co});
+  const connectionOptionsName = isTestMode ? 'test' : 'default';
+  const co = await getConnectionOptions(connectionOptionsName);
+  // console.warn({co});
   // todo select test db
-  return createConnection(connectionOptions)
+  return createConnection(co)
 }

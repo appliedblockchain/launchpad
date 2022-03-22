@@ -4,7 +4,7 @@ import { User } from '@launchpad-ts/shared-types'
 
 @Entity()
 export class UserEntity implements User {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: number
 
   @Column({
