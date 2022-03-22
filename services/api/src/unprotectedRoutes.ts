@@ -1,10 +1,12 @@
 import { SwaggerRouter } from 'koa-swagger-decorator'
 
-import { health } from './controller'
+import { health, auth } from './controller'
 
 const unprotectedRouter = new SwaggerRouter()
 
 unprotectedRouter.get('/health', health.status)
+
+unprotectedRouter.post('/login', auth.login)
 
 unprotectedRouter.swagger({
   swaggerHtmlEndpoint: '/docs',

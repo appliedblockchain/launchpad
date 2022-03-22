@@ -9,10 +9,8 @@ function HomePage() {
   const dispatch: AppDispatch = useDispatch()
   const navigate = useNavigate()
   const handleSubmit = async () => {
-    const resultAction = await dispatch(logout())
-    if (logout.fulfilled.match(resultAction)) {
-      navigate('/login')
-    }
+    dispatch(logout())
+    navigate('/login')
   }
 
   return (
