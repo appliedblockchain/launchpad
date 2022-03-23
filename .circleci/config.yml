@@ -1,0 +1,54 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@4.7.0
+
+jobs:
+  pre-build:
+    docker:
+        - image: cimg/node:lts
+    steps:
+      - run: mkdir build_space
+      - add_ssh_keys
+      - checkout:
+          path: /tmp/build_space/git_repo
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-{{ checksum "/tmp/build_space/git_repo/yarn.lock" }}
+      - run:
+          name: Install Dependencies
+          command: |-
+            cd /tmp/build_space/git_repo
+            yarn --immutable
+      - persist_to_workspace:
+          root: /tmp/build_space
+          paths:
+            - git_repo
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: yarn-packages-{{ checksum "/tmp/build_space/git_repo/yarn.lock" }}
+          paths:
+            - /tmp/build_space/git_repo/.yarn/releases
+            - /tmp/build_space/git_repo/.yarn/cache
+            - /tmp/build_space/git_repo/.yarn/unplugged
+  lint:
+    docker:
+        - image: cimg/node:16.14
+    steps:
+      - run: yarn typecheck
+      - run: yarn lint
+
+  test:
+   docker:
+        - image: cimg/node:16.4
+    steps:
+      - run: yarn test
+
+workflows:
+ version: 2
+  deploy:
+    jobs:
+      - pre-build
+      - lint
+      - test
