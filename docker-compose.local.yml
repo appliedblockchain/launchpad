@@ -11,6 +11,7 @@ services:
       - ./services/api/src:/usr/src/app/services/api/src
       - ./packages/shared-types:/usr/src/app/packages/shared-types
       - /usr/src/app/services/api/node_modules
+      - /usr/src/app/packages/shared-types/node_modules
     depends_on:
       - postgresdb
     env_file:

@@ -2512,6 +2512,7 @@ __metadata:
     "@koa/router": ^10.1.1
     "@launchpad-ts/shared-types": 0.1.0
     "@sentry/node": ^6.18.1
+    "@sentry/tracing": ^6.19.1
     "@types/bcrypt": ^5.0.0
     "@types/jest": ^27.4.1
     "@types/jsonwebtoken": ^8.5.8
@@ -2539,6 +2540,14 @@ __metadata:
     typeorm: ^0.2.45
     typescript: ^4.6.2
     winston: ^3.6.0
+  languageName: unknown
+  linkType: soft
+
+"@launchpad-ts/e2e-tests@workspace:packages/e2e-tests":
+  version: 0.0.0-use.local
+  resolution: "@launchpad-ts/e2e-tests@workspace:packages/e2e-tests"
+  dependencies:
+    cypress: ^9.5.2
   languageName: unknown
   linkType: soft
 
@@ -2954,6 +2963,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sentry/hub@npm:6.19.1":
+  version: 6.19.1
+  resolution: "@sentry/hub@npm:6.19.1"
+  dependencies:
+    "@sentry/types": 6.19.1
+    "@sentry/utils": 6.19.1
+    tslib: ^1.9.3
+  checksum: c47b6dcb3daeedb4c755fea1507e19566bcb50e44ad7233c16cfb1d846d3f6b1c14b9375d88b1d45019c81b76af9f13e812b0c132cb8e2bd75d145f7b41e9a5e
+  languageName: node
+  linkType: hard
+
 "@sentry/minimal@npm:6.18.1":
   version: 6.18.1
   resolution: "@sentry/minimal@npm:6.18.1"
@@ -2962,6 +2982,17 @@ __metadata:
     "@sentry/types": 6.18.1
     tslib: ^1.9.3
   checksum: ce4db8bae8e0fa46d1650e791499a0c0463d765868460484b09237fc542556e2b331280d2f291d60e0c2ba3dd90793a9be54cd2730a2e037300ff3d0d2ea2f9d
+  languageName: node
+  linkType: hard
+
+"@sentry/minimal@npm:6.19.1":
+  version: 6.19.1
+  resolution: "@sentry/minimal@npm:6.19.1"
+  dependencies:
+    "@sentry/hub": 6.19.1
+    "@sentry/types": 6.19.1
+    tslib: ^1.9.3
+  checksum: ac47c43883924a3abbf508148bc350f71bfd26828a3fd886e1075dffd3331f9e455478a54293fce606604cabdc6b32452b98c87e69bb9d71854b493c41510863
   languageName: node
   linkType: hard
 
@@ -2995,10 +3026,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sentry/tracing@npm:^6.19.1":
+  version: 6.19.1
+  resolution: "@sentry/tracing@npm:6.19.1"
+  dependencies:
+    "@sentry/hub": 6.19.1
+    "@sentry/minimal": 6.19.1
+    "@sentry/types": 6.19.1
+    "@sentry/utils": 6.19.1
+    tslib: ^1.9.3
+  checksum: a0dcdf7e7a77a2b0dd836974b246b285df901cefb37b0b7e6312703e3b5fa1e6007c1a3279de1b40419a530fef79468b0088b19630769962635d7b9f3d4b8b69
+  languageName: node
+  linkType: hard
+
 "@sentry/types@npm:6.18.1":
   version: 6.18.1
   resolution: "@sentry/types@npm:6.18.1"
   checksum: dbf4abc28adbd734cd7fb353b547e9686293e734a8fbe4f88fd711c65fcf9905e2affdd35f1e422038168153b7b0b02a972e76dd5fb2edc74a62b1733820a1d0
+  languageName: node
+  linkType: hard
+
+"@sentry/types@npm:6.19.1":
+  version: 6.19.1
+  resolution: "@sentry/types@npm:6.19.1"
+  checksum: 22f74597786358ada6c3128e43e12bdf9850504e907a705f1f72781485546e979c52939d1e49bfccd16981df86b51fac4900b2dbac96f579273942d41ee3e056
   languageName: node
   linkType: hard
 
@@ -3009,6 +3060,16 @@ __metadata:
     "@sentry/types": 6.18.1
     tslib: ^1.9.3
   checksum: 998e2e565e693e86c2e2bae830fe7df04e9cf588eb13cc98f03df35e2b5de78fff669b1a9dffc893a0d2c81e2c61e1107ad5f876e1203415325514849fb25336
+  languageName: node
+  linkType: hard
+
+"@sentry/utils@npm:6.19.1":
+  version: 6.19.1
+  resolution: "@sentry/utils@npm:6.19.1"
+  dependencies:
+    "@sentry/types": 6.19.1
+    tslib: ^1.9.3
+  checksum: 5e76bd73a584f215d06be5554db076dbc3eeab6b2326bc917550f98d6558b40849491748fa037efc489cd20c32fbffac1f1ea2b4f6b7055b3d39093596ecc8c0
   languageName: node
   linkType: hard
 
@@ -9177,9 +9238,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cypress@npm:^9.5.1":
-  version: 9.5.1
-  resolution: "cypress@npm:9.5.1"
+"cypress@npm:^9.5.2":
+  version: 9.5.2
+  resolution: "cypress@npm:9.5.2"
   dependencies:
     "@cypress/request": ^2.88.10
     "@cypress/xvfb": ^1.2.4
@@ -9225,7 +9286,7 @@ __metadata:
     yauzl: ^2.10.0
   bin:
     cypress: bin/cypress
-  checksum: 96efebb8bfca52f214f793856a7eb40a6eb4a7bc06e5d7c17c7378cec8e3e3975d5777147066d04d95d88b99d4052bbf8749d96b4a25d3f79cc65e88e93f703d
+  checksum: d19a183df25adcb87ba4914fb177a2b8bf2f004c8364fa21abb6bf66f2462d6f586bf09b58480e804f6b499281d931712a3e262f09880859e3170d513c5c9227
   languageName: node
   linkType: hard
 
@@ -14778,14 +14839,11 @@ __metadata:
     "@typescript-eslint/parser": ^5.14.0
     commitlint-config-jira: ^1.5.2
     commitlint-plugin-jira-rules: ^1.5.1
-    cypress: ^9.5.1
     eslint: ^8.10.0
     eslint-config-prettier: ^8.5.0
     eslint-plugin-prettier: ^4.0.0
     eslint-plugin-simple-import-sort: ^7.0.0
     prepush-if-changed: ^1.0.8
-    react: ^17.0.2
-    react-dom: ^17.0.2
     typescript: ^4.6.2
   languageName: unknown
   linkType: soft
