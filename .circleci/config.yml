@@ -34,29 +34,30 @@ jobs:
   lint:
     docker:
       - image: cimg/node:16.14
-    attach_workspace:
-      at: /tmp/build_space/
     working_directory: /tmp/build_space/git_repo
     steps:
+      - attach_workspace:
+          at: /tmp/build_space/
       - run: yarn typecheck
       - run: yarn lint
 
   test:
     docker:
       - image: cimg/node:16.4
-    attach_workspace:
-      at: /tmp/build_space/
+
     working_directory: /tmp/build_space/git_repo
     steps:
+      - attach_workspace:
+          at: /tmp/build_space/
       - run: yarn test
 
   build:
     docker:
       - image: cimg/node:16.4
-    attach_workspace:
-      at: /tmp/build_space/
     working_directory: /tmp/build_space/git_repo
     steps:
+      - attach_workspace:
+          at: /tmp/build_space/
       - run: yarn build
 
 workflows:
