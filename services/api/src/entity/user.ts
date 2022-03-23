@@ -1,6 +1,6 @@
+import { User } from '@launchpad-ts/shared-types'
 import { IsEmail, Length } from 'class-validator'
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
-import { User } from '@launchpad-ts/shared-types'
 
 @Entity()
 export class UserEntity implements User {

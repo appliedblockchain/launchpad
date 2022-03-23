@@ -17,8 +17,14 @@
     "start:api": "yarn workspace @launchpad-ts/api start:dev",
     "storybook": "yarn workspace @launchpad-ts/ui-library storybook",
     "lint": "eslint \"**/*.{js,ts,tsx}\" --quiet --fix",
+    "typecheck": "yarn workspaces foreach run typecheck",
+    "test": "yarn workspaces foreach run test",
     "e2e:open": "cypress open",
     "e2e:run": "cypress run"
+  },
+  "engines": {
+    "node": "16.x.x",
+    "npm": "6.x.x"
   },
   "dependencies": {
     "@arkweid/lefthook": "^0.7.7",
@@ -35,7 +41,12 @@
   },
   "devDependencies": {
     "cypress": "^9.5.1",
+    "prepush-if-changed": "^1.0.8",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
+  },
+  "prepush-if-changed": {
+    "services/web/**/*.ts?(x)": "yarn workspace @launchpad-ts/web test",
+    "services/api/**/*.ts": "yarn workspace @launchpad-ts/api test"
   }
 }
