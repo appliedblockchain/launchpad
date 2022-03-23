@@ -46,7 +46,7 @@ export default () => {
     .use(jwt({ secret: config.jwtSecret }).unless({ path: [/^\/swagger-/] }))
     .use(protectedRouter.middleware())
 
-  app.listen(config.port, () => {
+  return app.listen(config.port, () => {
     console.log(`Server running on port ${config.port}`)
   })
 }
