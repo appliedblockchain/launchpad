@@ -34,6 +34,7 @@ jobs:
   lint:
     docker:
       - image: cimg/node:16.14
+    working_directory: /tmp/build_space/git_repo
     steps:
       - run: yarn typecheck
       - run: yarn lint
@@ -41,12 +42,14 @@ jobs:
   test:
     docker:
       - image: cimg/node:16.4
+    working_directory: /tmp/build_space/git_repo
     steps:
       - run: yarn test
 
   build:
     docker:
       - image: cimg/node:16.4
+    working_directory: /tmp/build_space/git_repo
     steps:
       - run: yarn build
 
