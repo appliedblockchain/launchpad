@@ -1,12 +1,11 @@
 version: 2.1
-
 orbs:
   node: circleci/node@4.7.0
 
 jobs:
   pre-build:
     docker:
-        - image: cimg/node:lts
+      - image: cimg/node:16.14
     steps:
       - run: mkdir build_space
       - add_ssh_keys
@@ -34,21 +33,27 @@ jobs:
             - /tmp/build_space/git_repo/.yarn/unplugged
   lint:
     docker:
-        - image: cimg/node:16.14
+      - image: cimg/node:16.14
     steps:
       - run: yarn typecheck
       - run: yarn lint
 
   test:
-   docker:
-        - image: cimg/node:16.4
+    docker:
+      - image: cimg/node:16.4
     steps:
       - run: yarn test
 
+  build:
+    docker:
+      - image: cimg/node:16.4
+    steps:
+      - run: yarn build
+
 workflows:
- version: 2
-  deploy:
+  build:
     jobs:
       - pre-build
       - lint
       - test
+      - build

@@ -19,6 +19,7 @@
     "lint": "eslint \"**/*.{js,ts,tsx}\" --quiet --fix",
     "typecheck": "yarn workspaces foreach run typecheck",
     "test": "yarn workspaces foreach run test",
+    "build": "yarn workspaces foreach run build",
     "e2e:open": "cypress open",
     "e2e:run": "cypress run"
   },
