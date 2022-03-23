@@ -1,19 +1,20 @@
-import { User, LoginResponse } from '@launchpad-ts/shared-types'
-import { UserEntity, userSchema } from '../entity/user'
+import { LoginResponse,User } from '@launchpad-ts/shared-types'
+import jwt from 'jsonwebtoken'
 import {
+  body,
+  Context,
   request,
   responsesAll,
   summary,
   swaggerClass,
   swaggerProperty,
   tagsAll,
-  body,
-  Context,
 } from 'koa-swagger-decorator'
 import { getManager } from 'typeorm'
-import passwordHelper from '../helper/password'
-import jwt from 'jsonwebtoken'
+
 import { config } from '../config'
+import { UserEntity, userSchema } from '../entity/user'
+import passwordHelper from '../helper/password'
 
 @swaggerClass()
 export class LoginRequest {

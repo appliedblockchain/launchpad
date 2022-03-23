@@ -1,3 +1,14 @@
+pre-commit:
+  commands:
+    typecheck:
+      run:
+        yarn typecheck
+    lint:
+      run: yarn lint
+pre-push:
+  commands:
+    prepush-if-changed:
+      run: yarn prepush-if-changed
 commit-msg:
   commands:
     lint-commit-msg:

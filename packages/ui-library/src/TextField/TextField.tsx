@@ -1,5 +1,6 @@
-import React from 'react'
 import './TextField.css'
+
+import React from 'react'
 
 interface Props {
   label: string

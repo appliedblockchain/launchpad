@@ -1,3 +1,4 @@
+import { User } from '@launchpad-ts/shared-types'
 import { validate, ValidationError } from 'class-validator'
 import { Context } from 'koa'
 import {
@@ -10,10 +11,9 @@ import {
   tagsAll,
 } from 'koa-swagger-decorator'
 import { Equal, getManager, Like, Not, Repository } from 'typeorm'
-import passwordHelper from '../helper/password'
 
 import { UserEntity, userSchema } from '../entity/user'
-import { User } from '@launchpad-ts/shared-types'
+import passwordHelper from '../helper/password'
 
 @tagsAll(['User'])
 export default class UserController {
@@ -116,7 +116,7 @@ export default class UserController {
       ctx.body = 'The specified e-mail address already exists'
     } else {
       // save the user contained in the POST body
-      const user = await userRepository.save(userToBeSaved)
+      ctx.body = await userRepository.save(userToBeSaved)
       // return CREATED status code and updated user
       ctx.status = 201
     }

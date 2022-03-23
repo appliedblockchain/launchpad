@@ -2,13 +2,14 @@ import { validate } from 'class-validator'
 import { Context } from 'koa'
 import { getManager } from 'typeorm'
 
-import UserController from '../src/controller/user'
-import { User } from '../src/entity/user'
+import UserController from '../../src/controller/user'
+import { UserEntity as User } from '../../src/entity/user'
 
 const user: User = new User()
 user.id = 0
 user.name = 'John'
-user.name = 'johndoe@gmail.com'
+user.email = 'johndoe@gmail.com'
+user.password = '1234'
 
 jest.mock('typeorm', () => {
   const doNothing = () => {
