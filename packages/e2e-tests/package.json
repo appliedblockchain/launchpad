@@ -1,0 +1,11 @@
+{
+  "name": "@launchpad-ts/e2e-tests",
+  "packageManager": "yarn@3.2.0",
+  "dependencies": {
+    "cypress": "^9.5.2"
+  },
+  "scripts": {
+    "e2e:open": "cypress open",
+    "e2e:run": "cypress run"
+  }
+}
