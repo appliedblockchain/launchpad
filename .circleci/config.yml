@@ -54,6 +54,18 @@ workflows:
   build:
     jobs:
       - pre-build
-      - lint
-      - test
-      - build
+
+      - lint:
+          name: lint
+          requires:
+            - pre-build
+
+      - test:
+          name: test
+          requires:
+            - pre-build
+
+      - build:
+          name: build
+          requires:
+            - pre-build
