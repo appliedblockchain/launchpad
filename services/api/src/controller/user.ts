@@ -116,7 +116,7 @@ export default class UserController {
       ctx.body = 'The specified e-mail address already exists'
     } else {
       // save the user contained in the POST body
-      const user = await userRepository.save(userToBeSaved)
+      ctx.body = await userRepository.save(userToBeSaved)
       // return CREATED status code and updated user
       ctx.status = 201
     }
