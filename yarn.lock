@@ -14764,7 +14764,6 @@ __metadata:
   dependencies:
     "@arkweid/lefthook": ^0.7.7
     "@commitlint/cli": ^16.2.1
-    "@types/jest": ^27.4.1
     "@typescript-eslint/eslint-plugin": ^5.14.0
     "@typescript-eslint/parser": ^5.14.0
     commitlint-config-jira: ^1.5.2
