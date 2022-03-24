@@ -32,7 +32,7 @@ const getEntitiesFolder = () => {
 }
 
 const config: Config = {
-  port: +(process.env.PORT || 4000),
+  port: isTestMode ? +(process.env.TEST_APP_PORT || 4002) : +(process.env.PORT || 4000),
   debugLogging: isDevMode,
   dbsslconn: !isDevMode && !isTestMode,
   jwtSecret: process.env.JWT_SECRET || 'your-secret-whatever',

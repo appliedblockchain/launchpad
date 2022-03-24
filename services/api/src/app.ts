@@ -11,8 +11,13 @@ import { config } from './config'
 import { errorHandler, logger, tracingHandler } from './middleware'
 import { protectedRouter } from './protectedRoutes'
 import { unprotectedRouter } from './unprotectedRoutes'
+import { Server } from 'http'
 
-export default () => {
+let server: Server;
+export default () : Server  => {
+  if (server) {
+    return server;
+  }
   const app = new Koa()
 
   app
@@ -42,11 +47,12 @@ export default () => {
     .use(cors())
     .use(logger(winston))
     .use(bodyParser())
-    .use(unprotectedRouter.middleware())
+    // .use(unprotectedRouter.middleware())
     .use(jwt({ secret: config.jwtSecret }).unless({ path: [/^\/swagger-/] }))
     .use(protectedRouter.middleware())
 
-  return app.listen(config.port, () => {
+  server = app.listen(config.port, () => {
     console.log(`Server running on port ${config.port}`)
   })
+  return server;
 }

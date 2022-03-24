@@ -11,6 +11,7 @@ import {
 } from 'koa-swagger-decorator'
 import { Equal, getManager, Like, Not, Repository } from 'typeorm'
 import passwordHelper from '../helper/password'
+import jwtHelper from '../helper/jwt'
 
 import { UserEntity, userSchema } from '../entity/user'
 import { User } from '@launchpad-ts/shared-types'

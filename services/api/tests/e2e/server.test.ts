@@ -1,40 +1,37 @@
-import Koa from 'koa'
-import { protectedRouter } from '../../src/protectedRoutes'
 import request from 'supertest';
 import createDbConnection from '../../src/createDbConnection'
 import { getSampleData, SampleDataFormat } from '../sample';
 import { UserEntity } from '../../src/entity/user';
-import bodyParser from 'koa-bodyparser'
 import { BCRYPT_MOCK_PASSWORD, mock } from '../mock'
-import { Connection } from 'typeorm';
-import { unprotectedRouter } from '../../src/unprotectedRoutes';
+import jwtHelper from '../../src/helper/jwt';
 
-let server: any;
+import { Connection } from 'typeorm';
+import app from '../../src/app';
+import { Server } from 'http';
+
 let api: request.SuperTest<request.Test>;
 let connection: Connection;
 let sampleData: SampleDataFormat;
+let server: Server
 
 beforeAll(async () => {
-    // mock koa app
-    const app = new Koa();
-    app
-        .use(bodyParser())
-        .use(protectedRouter.middleware())
-    
-    server = app.listen(process.env.TEST_APP_PORT);
+    server = app();
     api = request(server);    
     connection = await createDbConnection({
         port: process.env.TEST_DATABASE_PORT
     })
     sampleData = getSampleData();
     mock().bcrypt();
+
 })
 
 afterEach(async () => {
-    const entities = connection.entityMetadatas;
-    for (const entity of entities) {
-      const repository = await connection.getRepository(entity.name);
-      await repository.query(`TRUNCATE ${entity.tableName} RESTART IDENTITY CASCADE;`);
+    if (connection) {
+        const entities = connection.entityMetadatas;
+        for (const entity of entities) {
+          const repository = await connection.getRepository(entity.name);
+          await repository.query(`TRUNCATE ${entity.tableName} RESTART IDENTITY CASCADE;`);
+        }
     }
 });
 
@@ -47,6 +44,7 @@ describe('users', () => {
     it('gets users', async () => {
         const response = await api
             .get('/users')
+            .set('Authorization', 'Bearer ' + jwtHelper.getAccessToken(sampleData.userToSave))
             .expect(200)
         expect(response.body).toStrictEqual([])
     });
@@ -56,6 +54,7 @@ describe('users', () => {
 
         const response = await api
             .get('/users/1')
+            .set('Authorization', 'Bearer ' + jwtHelper.getAccessToken(sampleData.userToSave))
             .expect(200)
         expect(response.body).toStrictEqual({
             ...sampleData.userToSave,
@@ -65,6 +64,7 @@ describe('users', () => {
     it('creates user', async () => {
         const response = await api
             .post('/users')
+            .set('Authorization', 'Bearer ' + jwtHelper.getAccessToken(sampleData.userToSave))
             .type('form')
             .send(sampleData.userToSave)
             .set('Accept', '/application\/json/')
@@ -81,6 +81,7 @@ describe('users', () => {
 
         const response = await api
             .put('/users/1')
+            .set('Authorization', 'Bearer ' + jwtHelper.getAccessToken(sampleData.userToSave))
             .type('form')
             .send(sampleData.userToUpdate)
             .expect(201);
@@ -98,6 +99,7 @@ describe('users', () => {
 
         await api
             .delete('/users/1')
+            .set('Authorization', 'Bearer ' + jwtHelper.getAccessToken(sampleData.userToSave))
             .expect(204);
     })
 })
