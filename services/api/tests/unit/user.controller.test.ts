@@ -1,14 +1,30 @@
+
 import { validate } from 'class-validator'
 import { Context } from 'koa'
 import { getManager } from 'typeorm'
 
-import UserController from '../src/controller/user'
-import { User } from '../src/entity/user'
+import UserController from '../../src/controller/user'
+import { UserEntity } from '../../src/entity/user'
 
-const user: User = new User()
-user.id = 0
-user.name = 'John'
-user.name = 'johndoe@gmail.com'
+import { getSampleData, SampleDataFormat } from '../sample'
+import { mock } from '../mock';
+
+const sampleData: SampleDataFormat = getSampleData()
+
+const mockFns = mock();
+mockFns.bcrypt();
+
+jest.mock('class-validator', () => {
+  const doNothing = () => {
+    //Empty function that mocks typeorm annotations
+  }
+
+  return {
+    validate: jest.fn(),
+    Length: doNothing,
+    IsEmail: doNothing,
+  }
+})
 
 jest.mock('typeorm', () => {
   const doNothing = () => {
@@ -26,33 +42,23 @@ jest.mock('typeorm', () => {
   }
 })
 
-jest.mock('class-validator', () => {
-  const doNothing = () => {
-    //Empty function that mocks typeorm annotations
-  }
-
-  return {
-    validate: jest.fn(),
-    Length: doNothing,
-    IsEmail: doNothing,
-  }
-})
-
 describe('User controller', () => {
   it('getUsers should return status 200 and found users.', async () => {
-    const userRepository = { find: jest.fn().mockReturnValue([user]) }
+    const userRepository = { find: jest.fn().mockReturnValue([sampleData.userToSave]) }
     ;(getManager as jest.Mock).mockReturnValue({
       getRepository: () => userRepository,
     })
     const context = { status: undefined, body: undefined } as Context
+
     await UserController.getUsers(context)
+    
     expect(userRepository.find).toHaveBeenCalledTimes(1)
     expect(context.status).toBe(200)
-    expect(context.body).toStrictEqual([user])
+    expect(context.body).toStrictEqual([sampleData.userToSave])
   })
 
   it('getUser should return status 200 and single user found by id.', async () => {
-    const userRepository = { findOne: jest.fn().mockReturnValue(user) }
+    const userRepository = { findOne: jest.fn().mockReturnValue(sampleData.userToSave) }
     ;(getManager as jest.Mock).mockReturnValue({
       getRepository: () => userRepository,
     })
@@ -64,7 +70,7 @@ describe('User controller', () => {
     await UserController.getUser(context)
     expect(userRepository.findOne).toHaveBeenCalledTimes(1)
     expect(context.status).toBe(200)
-    expect(context.body).toStrictEqual(user)
+    expect(context.body).toStrictEqual(sampleData.userToSave)
   })
 
   it('getUser should return status 400 if no user found and message.', async () => {
@@ -77,7 +83,9 @@ describe('User controller', () => {
       body: undefined,
       params: { id: 0 },
     } as unknown as Context
+
     await UserController.getUser(context)
+
     expect(userRepository.findOne).toHaveBeenCalledTimes(1)
     expect(context.status).toBe(400)
     expect(context.body).toBe(
@@ -87,28 +95,31 @@ describe('User controller', () => {
 
   it('createUser should return status 201 if is created.', async () => {
     const userRepository = {
-      save: jest.fn().mockReturnValue(user),
-      findOne: () => undefined as User,
+      save: jest.fn().mockReturnValue(sampleData.userToSave),
+      findOne: () => undefined as UserEntity,
     }
     ;(getManager as jest.Mock).mockReturnValue({
       getRepository: () => userRepository,
     })
     ;(validate as jest.Mock).mockReturnValue([])
+    // ;(password as jest.Mock).mockReturnValue("hashedTestExample12345")
     const context = {
       status: undefined,
       body: undefined,
-      request: { body: user },
+      request: { body: sampleData.userToSave },
     } as unknown as Context
+
     await UserController.createUser(context)
+
     expect(userRepository.save).toHaveBeenCalledTimes(1)
     expect(context.status).toBe(201)
-    expect(context.body).toStrictEqual(user)
+    expect(context.body).toStrictEqual(sampleData.userToSave)
   })
 
   it('createUser should return status 400 if there are validation errors.', async () => {
     const userRepository = {
-      save: jest.fn().mockReturnValue(user),
-      findOne: () => undefined as User,
+      save: jest.fn().mockReturnValue(sampleData.userToSave),
+      findOne: () => undefined as UserEntity,
     }
     ;(getManager as jest.Mock).mockReturnValue({
       getRepository: () => userRepository,
@@ -117,7 +128,7 @@ describe('User controller', () => {
     const context = {
       status: undefined,
       body: undefined,
-      request: { body: user },
+      request: { body: sampleData.userToSave },
     } as unknown as Context
     await UserController.createUser(context)
     expect(userRepository.save).toHaveBeenCalledTimes(0)
@@ -127,8 +138,8 @@ describe('User controller', () => {
 
   it('createUser should return status 400  if user already exists.', async () => {
     const userRepository = {
-      save: jest.fn().mockReturnValue(user),
-      findOne: () => user,
+      save: jest.fn().mockReturnValue(sampleData.userToSave),
+      findOne: () => sampleData.userToSave,
     }
     ;(getManager as jest.Mock).mockReturnValue({
       getRepository: () => userRepository,
@@ -137,7 +148,7 @@ describe('User controller', () => {
     const context = {
       status: undefined,
       body: undefined,
-      request: { body: user },
+      request: { body: sampleData.userToSave },
     } as unknown as Context
     await UserController.createUser(context)
     expect(userRepository.save).toHaveBeenCalledTimes(0)
@@ -151,9 +162,9 @@ describe('User controller', () => {
     const userRepository = {
       findOne: jest
         .fn()
-        .mockReturnValueOnce(user)
-        .mockReturnValueOnce(undefined as User),
-      save: jest.fn().mockReturnValue(user),
+        .mockReturnValueOnce(sampleData.userToSave)
+        .mockReturnValueOnce(undefined as UserEntity),
+      save: jest.fn().mockReturnValue(sampleData.userToSave),
     }
     ;(getManager as jest.Mock).mockReturnValue({
       getRepository: () => userRepository,
@@ -163,17 +174,17 @@ describe('User controller', () => {
       status: undefined,
       body: undefined,
       params: { id: 0 },
-      request: { body: user },
+      request: { body: sampleData.userToSave },
     } as unknown as Context
     await UserController.updateUser(context)
     expect(userRepository.findOne).toHaveBeenCalledTimes(2)
     expect(userRepository.save).toHaveBeenCalledTimes(1)
     expect(context.status).toBe(201)
-    expect(context.body).toStrictEqual(user)
+    expect(context.body).toStrictEqual(sampleData.userToSave)
   })
 
   it('updateUser should return 400 if there are validation errors.', async () => {
-    const userRepository = { save: jest.fn().mockReturnValue(user) }
+    const userRepository = { save: jest.fn().mockReturnValue(sampleData.userToSave) }
     ;(getManager as jest.Mock).mockReturnValue({
       getRepository: () => userRepository,
     })
@@ -182,7 +193,7 @@ describe('User controller', () => {
       status: undefined,
       body: undefined,
       params: { id: 0 },
-      request: { body: user },
+      request: { body: sampleData.userToSave },
     } as unknown as Context
     await UserController.updateUser(context)
     expect(userRepository.save).toHaveBeenCalledTimes(0)
@@ -192,7 +203,7 @@ describe('User controller', () => {
 
   it('updateUser should return 400 if user does not exist.', async () => {
     const userRepository = {
-      findOne: jest.fn().mockReturnValue(undefined as User),
+      findOne: jest.fn().mockReturnValue(undefined as UserEntity),
     }
     ;(getManager as jest.Mock).mockReturnValue({
       getRepository: () => userRepository,
@@ -202,7 +213,7 @@ describe('User controller', () => {
       status: undefined,
       body: undefined,
       params: { id: 0 },
-      request: { body: user },
+      request: { body: sampleData.userToSave },
     } as unknown as Context
     await UserController.updateUser(context)
     expect(userRepository.findOne).toHaveBeenCalledTimes(1)
@@ -216,7 +227,7 @@ describe('User controller', () => {
     const userRepository = {
       findOne: jest
         .fn()
-        .mockReturnValue({ id: 1, email: 'johndoe@gmail.com' } as User),
+        .mockReturnValue({ id: 1, email: 'johndoe@gmail.com' } as UserEntity),
     }
     ;(getManager as jest.Mock).mockReturnValue({
       getRepository: () => userRepository,
@@ -226,7 +237,7 @@ describe('User controller', () => {
       status: undefined,
       body: undefined,
       params: { id: 0 },
-      request: { body: user },
+      request: { body: sampleData.userToSave },
     } as unknown as Context
     await UserController.updateUser(context)
     expect(userRepository.findOne).toHaveBeenCalledTimes(2)
@@ -239,7 +250,7 @@ describe('User controller', () => {
   it('deleteUser should return status 400 if user does not exists.', async () => {
     const userRepository = {
       remove: jest.fn().mockReturnValue(undefined),
-      findOne: () => undefined as User,
+      findOne: () => undefined as UserEntity,
     }
     ;(getManager as jest.Mock).mockReturnValue({
       getRepository: () => userRepository,
@@ -248,7 +259,7 @@ describe('User controller', () => {
       status: undefined,
       body: undefined,
       params: { id: 0 },
-      state: { user: user },
+      state: { user: sampleData.userToSave },
     } as unknown as Context
     await UserController.deleteUser(context)
     expect(userRepository.remove).toHaveBeenCalledTimes(0)
@@ -261,7 +272,7 @@ describe('User controller', () => {
   it('deleteUser should return status 204 if user has been removed.', async () => {
     const userRepository = {
       remove: jest.fn().mockReturnValue(undefined),
-      findOne: () => user,
+      findOne: () => sampleData.userToSave,
     }
     ;(getManager as jest.Mock).mockReturnValue({
       getRepository: () => userRepository,
@@ -270,7 +281,7 @@ describe('User controller', () => {
       status: undefined,
       body: undefined,
       params: { id: 0 },
-      state: { user: user },
+      state: { user: sampleData.userToSave },
     } as unknown as Context
     await UserController.deleteUser(context)
     expect(userRepository.remove).toHaveBeenCalledTimes(1)
@@ -290,7 +301,7 @@ describe('User controller', () => {
       status: undefined,
       body: undefined,
       params: { id: 0 },
-      state: { user: 'johndoe@gmail.com' } as unknown as User,
+      state: { user: 'johndoe@gmail.com' } as unknown as UserEntity,
     } as unknown as Context
     await UserController.deleteUser(context)
     expect(context.status).toBe(403)
@@ -300,7 +311,7 @@ describe('User controller', () => {
   it('deleteTestUsers should return status 204 and remove users.', async () => {
     const userRepository = {
       remove: jest.fn().mockReturnValue(undefined),
-      find: () => [] as User[],
+      find: () => [] as UserEntity[],
     }
     ;(getManager as jest.Mock).mockReturnValue({
       getRepository: () => userRepository,
@@ -309,7 +320,7 @@ describe('User controller', () => {
       status: undefined,
       body: undefined,
       params: { id: 0 },
-      state: { user: user },
+      state: { user: sampleData.userToSave },
     } as unknown as Context
     await UserController.deleteTestUsers(context)
     expect(userRepository.remove).toHaveBeenCalledTimes(1)

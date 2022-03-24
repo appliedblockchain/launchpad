@@ -1,15 +1,17 @@
 import { ConnectionOptions, createConnection } from 'typeorm'
 
-import { config } from './config'
+import { config, isTestMode } from './config'
 
 const connectionOptions: ConnectionOptions = {
   type: 'postgres',
   url: config.databaseUrl,
-  synchronize: false,
+  synchronize: isTestMode,
   logging: false,
   entities: config.dbEntitiesPath,
   ssl: config.dbsslconn, // if not development, will use SSL
   extra: {},
+  name: 'default',
+  dropSchema: isTestMode,
 }
 if (connectionOptions.ssl) {
   connectionOptions.extra.ssl = {
@@ -17,6 +19,9 @@ if (connectionOptions.ssl) {
   }
 }
 
-export default () => {
-  return createConnection(connectionOptions)
+export default (overrideOptions: any = {}) => {
+  return createConnection({
+    ...connectionOptions,
+    ...overrideOptions
+  });
 }

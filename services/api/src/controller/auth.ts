@@ -12,8 +12,7 @@ import {
 } from 'koa-swagger-decorator'
 import { getManager } from 'typeorm'
 import passwordHelper from '../helper/password'
-import jwt from 'jsonwebtoken'
-import { config } from '../config'
+import jwtHelper from '../helper/jwt'
 
 @swaggerClass()
 export class LoginRequest {
@@ -65,7 +64,7 @@ export default class UserController {
       user && (await passwordHelper.validatePassword(user, body.password))
     if (valid) {
       const { password, ...userWithoutPassword } = user
-      const accessToken = jwt.sign(userWithoutPassword, config.jwtSecret)
+      const accessToken = jwtHelper.getAccessToken(user);
       ctx.status = 200
       ctx.body = <LoginResponse>{
         accessToken,

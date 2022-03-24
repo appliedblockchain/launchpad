@@ -1,7 +1,7 @@
-import { User } from '../src/entity/user'
+import { UserEntity } from '../../src/entity/user'
 
 test('user', () => {
-  const user = new User()
+  const user = new UserEntity()
   user.name = 'John Doe'
   user.email = 'johndoe@gmail.com'
   expect(user.name).toBe('John Doe')

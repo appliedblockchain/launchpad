@@ -11,6 +11,7 @@ import {
 } from 'koa-swagger-decorator'
 import { Equal, getManager, Like, Not, Repository } from 'typeorm'
 import passwordHelper from '../helper/password'
+import jwtHelper from '../helper/jwt'
 
 import { UserEntity, userSchema } from '../entity/user'
 import { User } from '@launchpad-ts/shared-types'
@@ -105,7 +106,6 @@ export default class UserController {
 
     // validate user entity
     const errors: ValidationError[] = await validate(userToBeSaved) // errors is an array of validation errors
-
     if (errors.length > 0) {
       // return BAD REQUEST status code and errors array
       ctx.status = 400
@@ -119,6 +119,7 @@ export default class UserController {
       const user = await userRepository.save(userToBeSaved)
       // return CREATED status code and updated user
       ctx.status = 201
+      ctx.body = user;
     }
   }
 
@@ -207,7 +208,7 @@ export default class UserController {
       // return a BAD REQUEST status code and error message
       ctx.status = 400
       ctx.body = "The user you are trying to delete doesn't exist in the db"
-    } else if (ctx.state.user.email !== userToRemove.email) {
+    } else if (ctx.state.user && ctx.state.user.email !== userToRemove.email) {
       // check user's token id and user id are the same
       // if not, return a FORBIDDEN status code and error message
       ctx.status = 403
