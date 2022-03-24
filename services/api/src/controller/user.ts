@@ -11,8 +11,9 @@ import {
   tagsAll,
 } from 'koa-swagger-decorator'
 import { Equal, getManager, Like, Not, Repository } from 'typeorm'
-import passwordHelper from '../helper/password'
+
 import { UserEntity, userSchema } from '../entity/user'
+import passwordHelper from '../helper/password'
 
 
 @tagsAll(['User'])
@@ -118,7 +119,6 @@ export default class UserController {
       ctx.body = await userRepository.save(userToBeSaved)
       // return CREATED status code and updated user
       ctx.status = 201
-      ctx.body = user;
     }
   }
 

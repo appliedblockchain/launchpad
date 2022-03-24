@@ -11,9 +11,10 @@ import {
   tagsAll,
 } from 'koa-swagger-decorator'
 import { getManager } from 'typeorm'
-import passwordHelper from '../helper/password'
-import jwtHelper from '../helper/jwt'
+
 import { UserEntity, userSchema } from '../entity/user'
+import jwtHelper from '../helper/jwt'
+import passwordHelper from '../helper/password'
 
 @swaggerClass()
 export class LoginRequest {

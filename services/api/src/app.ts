@@ -1,6 +1,7 @@
 import 'reflect-metadata'
 
 import cors from '@koa/cors'
+import { Server } from 'http'
 import Koa from 'koa'
 import bodyParser from 'koa-bodyparser'
 import helmet from 'koa-helmet'
@@ -11,7 +12,6 @@ import { config } from './config'
 import { errorHandler, logger, tracingHandler } from './middleware'
 import { protectedRouter } from './protectedRoutes'
 import { unprotectedRouter } from './unprotectedRoutes'
-import { Server } from 'http'
 
 let server: Server;
 export default () : Server  => {
