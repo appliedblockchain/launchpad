@@ -1,4 +1,4 @@
-# launchpad-ts
+# Avance
 
 ## Requirements
 
@@ -64,7 +64,7 @@ yarn upgrade-interactive
 
 | Package    | Description                                      |
 | ---------- | ------------------------------------------------ |
-| ui-library | Visual components to be used on web application. |
+| shared-types | Types and interfaces shared between services. |
 | api        | API server.                                      |
 | web        | Web interface.                                   |
 
