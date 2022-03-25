@@ -8,7 +8,7 @@
     "serve": "node build/server.js",
     "build": "npm run build-ts",
     "start": "npm run serve",
-    "test": "jest -c jest.config.ts",
+    "test": "NODE_ENV=test yarn test:unit & yarn test:integration",
     "test:unit": "jest -c jest.unit.config.ts",
     "test:integration": "jest -c jest.integration.config.ts --runInBand",
     "test:coverage": "jest --collect-coverage",
