@@ -1,0 +1,43 @@
+
+version: 2.1
+jobs:
+  playwright-test:
+    docker:
+      - image: mcr.microsoft.com/playwright:v1.22.0-focal
+    steps:
+      - run:
+          name: Playwright tests
+          command: 
+            yarn run test
+
+  api-test:
+    docker:
+      - image: cimg/base:2021.04
+    steps:
+      - run:
+          name: Api tests
+          command: |
+            cd services/api
+            npm run test:all
+  
+  web-test:
+    docker:
+      - image: cimg/base:2021.04
+    steps:
+      - run:
+          name: Web tests
+          command: |
+            cd services/web
+            yarn run test
+  
+  cypress-test:
+    docker:
+      - image: cimg/base:2021.04
+      steps:
+        - run:
+            name: Cypress tests
+            command: |
+              cd services/web
+              yarn run start
+              cd ../..
+              yarn run e2e:run
