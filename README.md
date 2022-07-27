@@ -1,4 +1,8 @@
-# launchpad-ts
+# launchpad
+
+#### Applied Blockchain's NodeJS Project Starter
+
+
 
 ## Requirements
 
