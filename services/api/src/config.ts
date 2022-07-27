@@ -43,7 +43,7 @@ const config: Config = {
       process.env.DATABASE_URL || 'postgres://user:pass@localhost:5432/apidb',
   dbEntitiesPath: getEntitiesFolder(),
   sentryDsn: process.env.SENTRY_DSN,
-  passwordSaltRounds: +process.env.PASSWORD_SALT_ROUNDS || 10,
+  passwordSaltRounds: +process.env.PASSWORD_SALT_ROUNDS || 13,
   migrationsPath: [
     "src/migrations/**/*.ts",
   ]
