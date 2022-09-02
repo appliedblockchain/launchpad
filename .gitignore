@@ -4,5 +4,6 @@ coverage
 .yarn/install-state.gz
 .env
 .idea
-cypress/videos
-cypress/screenshots
+/test-results/
+/playwright-report/
+/playwright/.cache/
