@@ -1,3 +1,4 @@
+import { User } from '@launchpad-ts/shared-types'
 import { validate, ValidationError } from 'class-validator'
 import { Context } from 'koa'
 import {
@@ -5,16 +6,13 @@ import {
   path,
   request,
   responses,
-  responsesAll,
   summary,
   tagsAll,
 } from 'koa-swagger-decorator'
 import { Equal, getManager, Like, Not, Repository } from 'typeorm'
-import passwordHelper from '../helper/password'
-import jwtHelper from '../helper/jwt'
 
 import { UserEntity, userSchema } from '../entity/user'
-import { User } from '@launchpad-ts/shared-types'
+import passwordHelper from '../helper/password'
 
 @tagsAll(['User'])
 export default class UserController {

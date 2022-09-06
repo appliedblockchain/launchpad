@@ -7,3 +7,4 @@ test('first page has React in title and should redirect to /login', async ({ pag
 
   await expect(page).toHaveURL(/.*login/);
 });
+

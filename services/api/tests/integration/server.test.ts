@@ -1,13 +1,13 @@
-import request from 'supertest';
-import createDbConnection from '../../src/createDbConnection'
-import { getSampleData, SampleDataFormat } from '../sample';
-import { UserEntity } from '../../src/entity/user';
-import { BCRYPT_MOCK_PASSWORD, mock } from '../mock'
-import jwtHelper from '../../src/helper/jwt';
-
-import { Connection } from 'typeorm';
-import app from '../../src/app';
 import { Server } from 'http';
+import request from 'supertest';
+import { Connection } from 'typeorm';
+
+import app from '../../src/app';
+import createDbConnection from '../../src/createDbConnection'
+import { UserEntity } from '../../src/entity/user';
+import jwtHelper from '../../src/helper/jwt';
+import { BCRYPT_MOCK_PASSWORD, mock } from '../mock'
+import { getSampleData, SampleDataFormat } from '../sample';
 
 let api: request.SuperTest<request.Test>;
 let connection: Connection;
