@@ -1,18 +1,19 @@
-import { User, LoginResponse } from '@launchpad-ts/shared-types'
-import { UserEntity, userSchema } from '../entity/user'
+import { LoginResponse, User } from '@launchpad-ts/shared-types'
 import {
+  body,
+  Context,
   request,
   responsesAll,
   summary,
   swaggerClass,
   swaggerProperty,
   tagsAll,
-  body,
-  Context,
 } from 'koa-swagger-decorator'
 import { getManager } from 'typeorm'
-import passwordHelper from '../helper/password'
+
+import { UserEntity, userSchema } from '../entity/user'
 import jwtHelper from '../helper/jwt'
+import passwordHelper from '../helper/password'
 
 @swaggerClass()
 export class LoginRequest {
@@ -55,13 +56,14 @@ export default class UserController {
   @body((LoginRequest as any).swaggerDocument)
   public static async login(ctx: Context): Promise<void> {
     const userRepository = getManager().getRepository(UserEntity)
+    // const body = ctx.request.body
     const body = ctx.request.body
 
     const [user]: User[] = await userRepository.find({
-      where: { email: body.email },
+      where: { email: 'o@o' } // body.email },
     })
     const valid =
-      user && (await passwordHelper.validatePassword(user, body.password))
+      user && (await passwordHelper.validatePassword(user, 'sdf')) // body.password))
     if (valid) {
       const { password, ...userWithoutPassword } = user
       const accessToken = jwtHelper.getAccessToken(user);

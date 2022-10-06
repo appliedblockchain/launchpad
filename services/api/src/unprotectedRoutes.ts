@@ -1,6 +1,6 @@
 import { SwaggerRouter } from 'koa-swagger-decorator'
 
-import { health, auth } from './controller'
+import { auth, health } from './controller'
 
 const unprotectedRouter = new SwaggerRouter()
 

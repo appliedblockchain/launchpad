@@ -1,3 +1,4 @@
+import { User } from '@launchpad-ts/shared-types'
 import { validate, ValidationError } from 'class-validator'
 import { Context } from 'koa'
 import {
@@ -10,11 +11,10 @@ import {
   tagsAll,
 } from 'koa-swagger-decorator'
 import { Equal, getManager, Like, Not, Repository } from 'typeorm'
-import passwordHelper from '../helper/password'
-import jwtHelper from '../helper/jwt'
 
 import { UserEntity, userSchema } from '../entity/user'
-import { User } from '@launchpad-ts/shared-types'
+import jwtHelper from '../helper/jwt'
+import passwordHelper from '../helper/password'
 
 @tagsAll(['User'])
 export default class UserController {
@@ -66,7 +66,7 @@ export default class UserController {
 
     // load user by id
     const user: User | undefined = await userRepository.findOne(
-      +ctx.params.id || 0
+      { where: { id: +ctx.params.id || 0 }}
     )
 
     if (user) {
@@ -110,7 +110,9 @@ export default class UserController {
       // return BAD REQUEST status code and errors array
       ctx.status = 400
       ctx.body = errors
-    } else if (await userRepository.findOne({ email: userToBeSaved.email })) {
+    } else if (await userRepository.findOne({
+        where: { email: userToBeSaved.email }
+      })) {
       // return BAD REQUEST status code and email already exists error
       ctx.status = 400
       ctx.body = 'The specified e-mail address already exists'
@@ -157,15 +159,19 @@ export default class UserController {
       // return BAD REQUEST status code and errors array
       ctx.status = 400
       ctx.body = errors
-    } else if (!(await userRepository.findOne(userToBeUpdated.id))) {
+    } else if (!(await userRepository.findOne({
+      where: {id: userToBeUpdated.id}
+    }))) {
       // check if a user with the specified id exists
       // return a BAD REQUEST status code and error message
       ctx.status = 400
       ctx.body = "The user you are trying to update doesn't exist in the db"
     } else if (
       await userRepository.findOne({
-        id: Not(Equal(userToBeUpdated.id)),
-        email: userToBeUpdated.email,
+        where: {
+          id: Not(Equal(userToBeUpdated.id)),
+          email: userToBeUpdated.email,
+        }
       })
     ) {
       // return BAD REQUEST status code and email already exists error
@@ -201,8 +207,11 @@ export default class UserController {
     const userRepository = getManager().getRepository(UserEntity)
 
     // find the user by specified id
-    const userToRemove: User | undefined = await userRepository.findOne(
-      +ctx.params.id || 0
+    const userToRemove: User | undefined = await userRepository.findOne({
+      where: {
+        id: +ctx.params.id || 0
+      }
+    }
     )
     if (!userToRemove) {
       // return a BAD REQUEST status code and error message
