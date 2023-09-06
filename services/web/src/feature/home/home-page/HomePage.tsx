@@ -1,4 +1,3 @@
-import { Button } from '@launchpad-ts/ui-library'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { AppDispatch } from '../../../store'
@@ -16,9 +15,9 @@ function HomePage() {
   return (
     <div className="page-container">
       <h2>Hello, {user?.name}</h2>
-      <Button type="button" onClick={handleSubmit}>
+      <button onClick={handleSubmit}>
         Logout
-      </Button>
+      </button>
     </div>
   )
 }

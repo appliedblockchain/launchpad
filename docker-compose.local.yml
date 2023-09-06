@@ -39,10 +39,7 @@ services:
     volumes:
       - ./services/web/src:/usr/src/app/services/web/src
       - ./packages/shared-types:/usr/src/app/packages/shared-types
-      - ./packages/ui-library/src:/usr/src/app/packages/ui-library/src
       - /usr/src/app/services/web/node_modules
-      - /usr/src/app/services/ui-library/node_modules
-      - /usr/src/app/services/ui-library/dist
     ports:
       - 3000:3000
     depends_on:

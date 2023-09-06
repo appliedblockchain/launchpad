@@ -2,7 +2,7 @@ import * as Sentry from '@sentry/node'
 import {
   extractTraceparentData,
   stripUrlQueryAndFragment,
-} from '@sentry/tracing'
+} from '@sentry/utils'
 import { Context } from 'koa'
 
 export default async (ctx: Context, next: () => Promise<any>) => {
