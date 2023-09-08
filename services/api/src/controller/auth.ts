@@ -65,7 +65,7 @@ export default class UserController {
     const valid =
       user && (await passwordHelper.validatePassword(user, password))
     if (valid) {
-      const { ...userWithoutPassword } = user
+      const { password, ...userWithoutPassword } = user
       const accessToken = jwtHelper.getAccessToken(user);
       ctx.status = 200
       ctx.body = <LoginResponse>{
