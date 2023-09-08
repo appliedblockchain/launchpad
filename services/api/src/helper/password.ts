@@ -1,5 +1,6 @@
 import { User } from '@launchpad-ts/shared-types'
 import bcrypt from 'bcrypt'
+
 import { config } from '../config'
 
 const hashPassword = (plainTextPassword: string): Promise<string> => {
