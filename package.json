@@ -26,11 +26,11 @@
     "@typescript-eslint/parser": "^6.6.0",
     "commitlint-config-jira": "^1.6.4",
     "commitlint-plugin-jira-rules": "^1.6.4",
-    "eslint": "^8.48.0",
+    "eslint": "^8.47.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-simple-import-sort": "^10.0.0",
-    "typescript": "^5.2.2"
+    "typescript": "^5.1.6"
   },
   "devDependencies": {
     "@playwright/test": "^1.37.1",
