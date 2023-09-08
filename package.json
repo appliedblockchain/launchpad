@@ -15,7 +15,6 @@
     "start:prod": "GIT_HASH_VERSION=$(git rev-parse HEAD) docker-compose -f docker-compose.yml up --build",
     "start:web": "yarn workspace @launchpad-ts/web start",
     "start:api": "yarn workspace @launchpad-ts/api start:dev",
-    "storybook": "yarn workspace storybook",
     "lint": "eslint \"**/*.{js,ts,tsx}\" --quiet --fix",
     "e2e:run": "yarn playwright test"
   },
