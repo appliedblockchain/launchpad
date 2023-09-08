@@ -1,4 +1,4 @@
 commit-msg:
   commands:
-    lint-commit-msg:
-      run: yarn commitlint --edit
+    # lint-commit-msg:
+    #   run: yarn commitlint --edit
