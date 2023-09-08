@@ -7,7 +7,7 @@
   "name": "launchpad-ts",
   "version": "1.0.0",
   "repository": "https://github.com/appliedblockchain/launchpad-ts",
-  "author": "fabio@appliedblockchain.com",
+  "author": "fabio@appliedblockchain.com, francesco@appliedblockchain.com (makevoid@gmail.com)",
   "packageManager": "yarn@3.6.3",
   "scripts": {
     "start": "GIT_HASH_VERSION=$(git rev-parse HEAD) docker-compose -f docker-compose.local.yml up",
