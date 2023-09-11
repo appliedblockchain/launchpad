@@ -13,8 +13,8 @@ services:
       - ./.env
     ports:
       - 4000:4000
-    environment:
-      - GIT_HASH_VERSION=${GIT_HASH_VERSION}
+    # environment:
+    #   - GIT_HASH_VERSION=${GIT_HASH_VERSION}
 
   postgresdb:
     image: postgres:14.9
