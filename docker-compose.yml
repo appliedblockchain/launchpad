@@ -27,6 +27,7 @@ services:
 
   postgresdb_test:
     image: postgres:14.9
+    network_mode: "host"
     ports:
       - '5433:5432'
     environment:
