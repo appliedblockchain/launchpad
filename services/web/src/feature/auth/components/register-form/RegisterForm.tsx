@@ -1,4 +1,3 @@
-import { Button, TextField } from '@launchpad-ts/ui-library'
 import { useForm } from 'react-hook-form'
 import { RegisterFormData } from '../../types'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -34,30 +33,30 @@ function RegisterForm({ onSubmit, authError }: RegisterFormProps) {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <h2>Signup</h2>
-      <TextField
-        label="Name"
+      <input
+        type="text"
+        placeholder="Name"
         {...register('name')}
-        error={errors?.name?.message}
       />
-      <TextField
-        label="Email"
+      <input
+        type="text"
+        placeholder="Email"
         {...register('email')}
-        error={errors?.email?.message}
       />
-      <TextField
-        label="Password"
+      <input
+        type="text"
+        placeholder="Password"
         {...register('password')}
         type="password"
-        error={errors?.password?.message}
       />
-      <TextField
-        label="Confirm password"
+      <input
+        type="text"
+        placeholder="Confirm password"
         {...register('confirmPassword')}
         type="password"
-        error={errors?.confirmPassword?.message}
       />
       <div className="button-container">
-        <Button type="submit">Register</Button>
+        <input type="submit" value="Register"></input>
         {authError && <span>{authError}</span>}
       </div>
     </form>

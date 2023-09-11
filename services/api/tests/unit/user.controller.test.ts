@@ -5,9 +5,8 @@ import { getManager } from 'typeorm'
 
 import UserController from '../../src/controller/user'
 import { UserEntity } from '../../src/entity/user'
-
-import { getSampleData, SampleDataFormat } from '../sample'
 import { mock } from '../mock';
+import { getSampleData, SampleDataFormat } from '../sample'
 
 const sampleData: SampleDataFormat = getSampleData()
 

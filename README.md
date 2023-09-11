@@ -68,7 +68,6 @@ yarn upgrade-interactive
 
 | Package    | Description                                      |
 | ---------- | ------------------------------------------------ |
-| ui-library | Visual components to be used on web application. |
 | api        | API server.                                      |
 | web        | Web interface.                                   |
 

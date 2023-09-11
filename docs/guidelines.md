@@ -5,14 +5,6 @@
 - Avoid code repetition
 - Avoid large files and functions
 
-## UI Library (internal package)
-
-- All reusable components or components dependent on ui framework must be included in the ui-library package
-- All components and different component states must be included in the storybook
-  - Helps finding components.
-  - Helps developing components without the need of integrating them in a page.
-- Cover code with unit tests
-
 ## Frontend
 
 - Use functional components and hooks

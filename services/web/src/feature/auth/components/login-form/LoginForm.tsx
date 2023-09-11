@@ -1,4 +1,3 @@
-import { Button, TextField } from '@launchpad-ts/ui-library'
 import { useForm } from 'react-hook-form'
 import { LoginFormData } from '../../types'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -28,20 +27,19 @@ function LoginForm({ onSubmit, authError }: LoginFormProps) {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <h2>Login</h2>
-      <TextField
-        label="Email"
+      <input
+        type="text"
+        placeholder="Email"
         {...register('email')}
-        error={errors?.email?.message}
       />
-      <TextField
-        label="Password"
-        {...register('password')}
+      <input
         type="password"
-        error={errors?.password?.message}
+        placeholder="Password"
+        {...register('password')}
       />
 
       <div className="button-container">
-        <Button type="submit">Login</Button>
+        <input type="submit" value="Login"></input>
         {authError && <span>{authError}</span>}
       </div>
     </form>
