@@ -23,7 +23,16 @@ services:
     environment:
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=pass
-      - POSTGRES_DB=apidb
+      - POSTGRES_DB=launchpad_dev
+
+  postgresdb_test:
+    image: postgres:14.9
+    ports:
+      - '5433:5432'
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_DB=launchpad_test
 
   # web:
   #   hostname: launchpad-ts-web

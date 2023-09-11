@@ -17,12 +17,12 @@ let server: Server
 beforeAll(async () => {
     server = app();
     api = request(server);
+
     connection = await createDbConnection({
         port: process.env.TEST_DATABASE_PORT
     })
     sampleData = getSampleData();
     mock().bcrypt();
-
 })
 
 afterEach(async () => {

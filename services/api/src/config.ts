@@ -1,6 +1,14 @@
 import dotenv from 'dotenv'
+import { existsSync } from 'fs'
 
-dotenv.config({ path: '.env' })
+if (existsSync('../../.env')) {
+  dotenv.config({ path: '../../.env' })
+} else if (existsSync(`../../.env.${process.env.NODE_ENV}`)) {
+  dotenv.config({ path: `../../.env.${process.env.NODE_ENV}` })
+} else {
+  console.error('ERROR: no env file found - exiting...')
+  process.exit(1)
+}
 
 import path from 'path';
 
@@ -40,7 +48,7 @@ const config: Config = {
     process.env.GIT_HASH_VERSION || 'No commit was passed into this build',
   databaseUrl:
     isTestMode ? process.env.TEST_DATABASE_URL :
-      process.env.DATABASE_URL || 'postgres://user:pass@localhost:5432/apidb',
+      process.env.DATABASE_URL || 'postgres://user:pass@localhost:5432/launchpad_dev',
   dbEntitiesPath: getEntitiesFolder(),
   sentryDsn: process.env.SENTRY_DSN,
   passwordSaltRounds: +process.env.PASSWORD_SALT_ROUNDS || 13,

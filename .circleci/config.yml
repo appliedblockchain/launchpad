@@ -12,9 +12,12 @@ jobs:
       - image: cimg/node:18.16.1
     steps:
       - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
       - run: yarn
       - run: yarn run lint
       - run: cd services/api && yarn run test:unit
+      - run: docker-compose up postgresdb_test
       - run: cd services/api && yarn run test:integration
 
 
