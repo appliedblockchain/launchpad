@@ -14,6 +14,8 @@ jobs:
       - checkout
       - run: yarn
       - run: yarn run lint
+      - run: cd services/api && yarn run test:unit
+      - run: cd services/api && yarn run test:integration
 
 
 workflows:
