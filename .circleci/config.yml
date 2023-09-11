@@ -17,7 +17,7 @@ jobs:
       - run: yarn
       - run: yarn run lint
       - run: cd services/api && yarn run test:unit
-      - run: docker-compose up postgresdb_test
+      - run: docker-compose up -d postgresdb_test
       - run: cd services/api && yarn run test:integration
 
 
