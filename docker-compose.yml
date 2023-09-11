@@ -9,8 +9,8 @@ services:
       dockerfile: ./stacks/prod/Dockerfile-api
     depends_on:
       - postgresdb
-    env_file:
-      - ./.env
+    # env_file:
+    #   - ./.env
     ports:
       - 4000:4000
     # environment:
