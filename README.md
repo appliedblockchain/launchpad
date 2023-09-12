@@ -2,8 +2,6 @@
 
 #### Applied Blockchain's NodeJS Project Starter
 
-
-
 ## Requirements
 
 To build and run this app locally you will need:
