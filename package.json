@@ -16,7 +16,10 @@
     "start:web": "yarn workspace @launchpad-ts/web start",
     "start:api": "yarn workspace @launchpad-ts/api start:dev",
     "lint": "eslint \"**/*.{js,ts,tsx}\" --quiet --fix",
-    "e2e:run": "yarn playwright test"
+    "e2e:run": "yarn playwright test",
+    "test:web": "yarn workspace @launchpad-ts/web test",
+    "test:api": "yarn workspace @launchpad-ts/api test:all",
+    "test": "yarn test:api && yarn test:web"
   },
   "dependencies": {
     "@arkweid/lefthook": "^0.7.7",
