@@ -17,6 +17,6 @@ unprotectedRouter.swagger({
 })
 
 // mapDir will scan the input dir, and automatically call router.map to all Router Class
-unprotectedRouter.mapDir(__dirname)
+unprotectedRouter.mapDir(__dirname, { ignore: ['server.ts']})
 
 export { unprotectedRouter }
