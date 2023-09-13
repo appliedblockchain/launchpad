@@ -10,7 +10,7 @@
     "start": "npm run serve",
     "test:all": "npm run test:unit && npm run test:integration",
     "test:unit": "jest -c jest.unit.config.ts --collect-coverage",
-    "test:integration": "jest -c jest.integration.config.ts --runInBand --collect-coverage",
+    "test:integration": "npm run migrations:run && jest -c jest.integration.config.ts --runInBand --collect-coverage",
     "test:coverage": "jest --collect-coverage",
     "migrations:create": "node --loader ts-node/esm ./node_modules/typeorm/cli.js migration:create",
     "migrations:generate": "node --loader ts-node/esm ./node_modules/typeorm/cli.js migration:generate -d ormconfig.ts",
