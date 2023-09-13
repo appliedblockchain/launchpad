@@ -1,16 +1,16 @@
 import { Server } from 'http';
 import request from 'supertest';
-import { Connection } from 'typeorm';
+import { DataSource } from 'typeorm';
 
 import app from '../../src/app';
-import createDbConnection from '../../src/createDbConnection'
+import { DataSourceInstance } from '../../src/db/data-source'
 import { UserEntity } from '../../src/entity/user';
 import jwtHelper from '../../src/helper/jwt';
 import { BCRYPT_MOCK_PASSWORD, mock } from '../mock'
 import { getSampleData, SampleDataFormat } from '../sample';
 
 let api: request.SuperTest<request.Test>;
-let connection: Connection;
+let dataSource: DataSource;
 let sampleData: SampleDataFormat;
 let server: Server
 
@@ -18,26 +18,33 @@ beforeAll(async () => {
     server = app();
     api = request(server);
 
-    connection = await createDbConnection({
-        port: process.env.TEST_DATABASE_PORT
-    })
+    dataSource = DataSourceInstance;
+    if (!dataSource.isInitialized) {
+        await dataSource.initialize()
+    }
+
     sampleData = getSampleData();
     mock().bcrypt();
 })
 
 afterEach(async () => {
-    if (connection) {
-        const entities = connection.entityMetadatas;
+    if (dataSource) {
+        const entities = dataSource.entityMetadatas;
         for (const entity of entities) {
-          const repository = await connection.getRepository(entity.name);
+          const repository = dataSource.getRepository(entity.name);
           await repository.query(`TRUNCATE ${entity.tableName} RESTART IDENTITY CASCADE;`);
         }
     }
 });
 
-afterAll(() => {
-    server.close();
-    // connection.close();
+afterAll(async () => {
+    await dataSource.destroy()
+})
+
+afterAll((done) => {
+    server.close(() => {
+        done()
+    })
 })
 
 describe('users', () => {

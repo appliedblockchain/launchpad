@@ -22,6 +22,7 @@ export class UserEntity implements User {
 
   @Column({
     length: 100,
+    select: false,
   })
   @Length(6, 100)
   password: string

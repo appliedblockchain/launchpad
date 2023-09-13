@@ -47,7 +47,7 @@ export default () : Server  => {
     .use(cors())
     .use(logger(winston))
     .use(bodyParser())
-    // .use(unprotectedRouter.middleware())
+    .use(unprotectedRouter.middleware())
     .use(jwt({ secret: config.jwtSecret }).unless({ path: [/^\/swagger-/] }))
     .use(protectedRouter.middleware())
 

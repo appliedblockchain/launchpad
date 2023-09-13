@@ -1,8 +1,8 @@
 import { BaseContext } from 'koa'
 import { description, request, summary, tagsAll } from 'koa-swagger-decorator'
-import { getConnection } from 'typeorm'
 
 import { config } from '../config'
+import { DataSourceInstance } from '../db/data-source'
 
 enum ServiceStatus {
   UP = 'UP',
@@ -16,9 +16,10 @@ export default class HealthController {
   @description('Show status of API and all dependent services')
   public static async status(ctx: BaseContext): Promise<void> {
     let dbStatus
+    const dataSource = DataSourceInstance
 
     try {
-      await getConnection().query('Select 1;')
+      await dataSource.query('Select 1;')
       dbStatus = ServiceStatus.UP
     } catch (_) {
       dbStatus = ServiceStatus.DOWN

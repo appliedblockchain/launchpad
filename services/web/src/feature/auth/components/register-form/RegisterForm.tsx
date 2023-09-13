@@ -24,7 +24,6 @@ function RegisterForm({ onSubmit, authError }: RegisterFormProps) {
   const {
     register,
     handleSubmit,
-    formState: { errors },
   } = useForm<RegisterFormData>({
     resolver: yupResolver(validationSchema),
     reValidateMode: 'onBlur',
@@ -44,13 +43,11 @@ function RegisterForm({ onSubmit, authError }: RegisterFormProps) {
         {...register('email')}
       />
       <input
-        type="text"
         placeholder="Password"
         {...register('password')}
         type="password"
       />
       <input
-        type="text"
         placeholder="Confirm password"
         {...register('confirmPassword')}
         type="password"
