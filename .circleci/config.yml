@@ -22,6 +22,7 @@ jobs:
           export POSTGRES_CONTAINER_ID=$(docker ps | grep postgres:14 | head -n 1 | awk '{print $1;}');
           export POSTGRES_HOSTNAME=$(docker inspect "$POSTGRES_CONTAINER_ID" | jq -r '.[0].Config.Hostname');
           export TEST_DATABASE_URL="postgres://user:pass@$POSTGRES_HOSTNAME:5432/launchpad_test";
+          export NODE_ENV="test";
           cd services/api && yarn run migrations:run && yarn run test:integration
 
 
