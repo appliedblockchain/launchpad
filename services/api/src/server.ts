@@ -4,7 +4,7 @@ import * as Sentry from '@sentry/node'
 
 import app from './app'
 import { config } from './config'
-import createDbConnection from './createDbConnection'
+import {  DataSourceInstance } from './db/data-source'
 
 const launch = async () => {
   if (config.sentryDsn) {
@@ -15,11 +15,9 @@ const launch = async () => {
     })
   }
 
-  await createDbConnection().catch((error: string) => {
-    const errorMessage = `TypeORM connection error: ${error}`
-    console.log(errorMessage)
-    Sentry.captureException(errorMessage)
-  })
+  if (!DataSourceInstance.isInitialized) {
+    await DataSourceInstance.initialize()
+  }
 
   app()
 }

@@ -9,8 +9,8 @@ import {
   swaggerProperty,
   tagsAll,
 } from 'koa-swagger-decorator'
-import { getManager } from 'typeorm'
 
+import { DataSourceInstance } from '../db/data-source'
 import { UserEntity, userSchema } from '../entity/user'
 import jwtHelper from '../helper/jwt'
 import passwordHelper from '../helper/password'
@@ -22,9 +22,9 @@ export class LoginRequest {
     required: true,
     example: 'avileslopez.javier@gmail.com',
   })
-  email: string = ''
+  email= ''
   @swaggerProperty({ type: 'string', required: true, example: 'password123' })
-  password: string = ''
+  password = ''
 }
 
 const { password, ...schemaWithoutPassword } = userSchema
@@ -55,12 +55,13 @@ export default class UserController {
   @summary('Authenticates user and returns jwt')
   @body((LoginRequest as any).swaggerDocument)
   public static async login(ctx: Context): Promise<void> {
-    const userRepository = getManager().getRepository(UserEntity)
+    const userRepository = DataSourceInstance.getRepository(UserEntity)
     const body = ctx.request.body
     const { email, password } = body as { email: string, password: string };
 
     const [user]: User[] = await userRepository.find({
       where: { email: email },
+      select: ['id', 'name', 'email', 'password'],
     })
     const valid =
       user && (await passwordHelper.validatePassword(user, password))

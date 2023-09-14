@@ -10,8 +10,9 @@ import {
   summary,
   tagsAll,
 } from 'koa-swagger-decorator'
-import { Equal, getManager, Like, Not, Repository } from 'typeorm'
+import { Equal, Like, Not, Repository } from 'typeorm'
 
+import { DataSourceInstance } from '../db/data-source'
 import { UserEntity, userSchema } from '../entity/user'
 import jwtHelper from '../helper/jwt'
 import passwordHelper from '../helper/password'
@@ -37,7 +38,7 @@ export default class UserController {
   public static async getUsers(ctx: Context): Promise<void> {
     // get a user repository to perform operations with user
     const userRepository: Repository<User> =
-      getManager().getRepository(UserEntity)
+      DataSourceInstance.getRepository(UserEntity)
 
     // load all users
     const users: User[] = await userRepository.find()
@@ -66,7 +67,7 @@ export default class UserController {
   // public static async getUser(ctx: Context): Promise<void> {
   //   // get a user repository to perform operations with user
   //   const userRepository: Repository<User> =
-  //     getManager().getRepository(UserEntity)
+  //     DataSourceInstance.getRepository(UserEntity)
 
   //   // load user by id
   //   const user: User | undefined = await userRepository.findOne(
@@ -98,7 +99,7 @@ export default class UserController {
   // public static async createUser(ctx: Context): Promise<void> {
   //   // get a user repository to perform operations with user
   //   const userRepository: Repository<User> =
-  //     getManager().getRepository(UserEntity)
+  //     DataSourceInstance.getRepository(UserEntity)
 
   //   // build up entity user to be saved
   //   const userToBeSaved: User = new UserEntity()
