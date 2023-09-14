@@ -1,5 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
+// note: consider using the typeorm migration API - queryRunner.createTable - https://orkhan.gitbook.io/typeorm/docs/migrations#using-migration-api-to-write-migrations
+
 export class Initial1694598133000 implements MigrationInterface {
     name = 'Initial1694598133000'
 
