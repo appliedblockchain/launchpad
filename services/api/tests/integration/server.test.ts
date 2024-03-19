@@ -1,5 +1,6 @@
 import { Server } from 'http';
 import request from 'supertest';
+import TestAgent from 'supertest/lib/agent';
 import { DataSource } from 'typeorm';
 
 import app from '../../src/app';
@@ -9,7 +10,7 @@ import jwtHelper from '../../src/helper/jwt';
 import { BCRYPT_MOCK_PASSWORD, mock } from '../mock'
 import { getSampleData, SampleDataFormat } from '../sample';
 
-let api: request.SuperTest<request.Test>;
+let api: TestAgent
 let dataSource: DataSource;
 let sampleData: SampleDataFormat;
 let server: Server
